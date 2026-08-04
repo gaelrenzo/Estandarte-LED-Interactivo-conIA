@@ -13,7 +13,7 @@
 \geometry{top=2cm,bottom=2cm,left=1.9cm,right=1.9cm}
 \usepackage{xcolor}
 \usepackage{graphicx}
-\graphicspath{{recursos/}{diagramas/}}
+\graphicspath{{recursos/}{diagramas/}{../../recursos/}}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{longtable}
@@ -63,7 +63,7 @@
   urlcolor=Electric,
   citecolor=Violet,
   pdftitle={Gran Plan de Trabajo y Simulacion del Estandarte LED IME},
-  pdfauthor={Equipo de Ingenieria Mecanica Electrica},
+  pdfauthor={Dilmar H. Siguayro Coila, Aquiles T. Ramos Yapo, Renzo G. Mamani Galindo, Martin Calla Quispe, Abel Y. Rivera Quispe},
   pdfsubject={Diseno, simulacion, programacion, energia, montaje y pruebas},
   pdfkeywords={ESP32, Wokwi, WS2812, ESP-NOW, estandarte, IME}
 }
@@ -111,7 +111,10 @@
   breaklines=true,tabsize=2,showstringspaces=false,
   xleftmargin=1em,framexleftmargin=0.6em,
   columns=fullflexible,
-  keepspaces=true
+  keepspaces=true,
+  literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+           {ñ}{{\~n}}1 {ü}{{\"u}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1
+           {Ó}{{\'O}}1 {Ú}{{\'U}}1 {Ñ}{{\~N}}1 {Ü}{{\"U}}1 {¿}{{?`}}1 {¡}{{!`}}1
 }
 \lstdefinelanguage{json}{morestring=[b]",morecomment=[l]{//},morekeywords={true,false,null},sensitive=true}
 
@@ -160,9 +163,9 @@
 \vfill
 \begin{tabularx}{\textwidth}{@{}Y Y@{}}
 \textbf{Documento:} Plan integral y paquete de simulación & \textbf{Versión:} 2.0\\
-\textbf{Equipo:} [Completar integrantes] & \textbf{Fecha:} 4 de agosto de 2026\\
-\textbf{Universidad:} [Completar] & \textbf{Lugar:} Puno, Perú\\
-\textbf{Responsable técnico:} [Completar] & \textbf{Estado:} Simulación inicial preparada\\
+\textbf{Equipo:} Dilmar H. Siguayro Coila; Aquiles T. Ramos Yapo; Renzo G. Mamani Galindo; Martin Calla Quispe; Abel Y. Rivera Quispe & \textbf{Fecha:} 4 de agosto de 2026\\
+\textbf{Universidad:} Universidad Nacional del Altiplano, Perú & \textbf{Lugar:} Puno, Perú\\
+\textbf{Responsable de asignatura:} Chura Acero Julio Fredy & \textbf{Estado:} Simulación inicial preparada\\
 \end{tabularx}
 \vspace{0.35cm}
 \end{titlepage}
@@ -698,7 +701,7 @@ Canaleta plástica & Protección de cableado & Facilita mantenimiento\\
 \bottomrule
 \end{longtable}
 
-\subsection{Cronograma referencial de 30 días}
+\subsection{Cronograma referencial de 20 días}
 \begin{landscape}
 \begin{figure}[H]
 \centering
@@ -714,29 +717,29 @@ Canaleta plástica & Protección de cableado & Facilita mantenimiento\\
   bar height=0.52,
   group height=0.55,
   milestone height=0.55
-]{2026-08-05}{2026-09-03}
+]{2026-08-05}{2026-08-24}
 \gantttitlecalendar{month=name,day}\\
-\ganttgroup{Planificación y simulación}{2026-08-05}{2026-08-12}\\
+\ganttgroup{Planificación y simulación}{2026-08-05}{2026-08-10}\\
 \ganttbar{Diseño visual}{2026-08-05}{2026-08-06}\\
-\ganttbar{Wokwi integrado}{2026-08-07}{2026-08-09}\\
-\ganttbar{Ajuste de animaciones}{2026-08-10}{2026-08-11}\\
-\ganttmilestone{Simulación aprobada}{2026-08-12}\\
-\ganttgroup{Firmware y comunicación}{2026-08-13}{2026-08-19}\\
-\ganttbar{PlatformIO}{2026-08-13}{2026-08-14}\\
-\ganttbar{ESP-NOW}{2026-08-15}{2026-08-17}\\
-\ganttbar{Web móvil}{2026-08-17}{2026-08-19}\\
-\ganttgroup{Ingeniería y prototipo}{2026-08-18}{2026-08-25}\\
-\ganttbar{Potencia y batería}{2026-08-18}{2026-08-20}\\
-\ganttbar{Prototipo parcial}{2026-08-21}{2026-08-23}\\
-\ganttbar{Diseño mecánico}{2026-08-21}{2026-08-25}\\
-\ganttgroup{Construcción e integración}{2026-08-26}{2026-09-01}\\
-\ganttbar{Construcción}{2026-08-26}{2026-08-29}\\
-\ganttbar{Cableado e integración}{2026-08-29}{2026-09-01}\\
-\ganttgroup{Validación}{2026-09-01}{2026-09-03}\\
-\ganttbar{Pruebas completas}{2026-09-01}{2026-09-02}\\
-\ganttmilestone{Ensayo general}{2026-09-03}
+\ganttbar{Wokwi integrado}{2026-08-06}{2026-08-08}\\
+\ganttbar{Ajuste de animaciones}{2026-08-09}{2026-08-10}\\
+\ganttmilestone{Simulación aprobada}{2026-08-10}\\
+\ganttgroup{Firmware y comunicación}{2026-08-11}{2026-08-16}\\
+\ganttbar{PlatformIO}{2026-08-11}{2026-08-12}\\
+\ganttbar{ESP-NOW}{2026-08-13}{2026-08-14}\\
+\ganttbar{Web móvil}{2026-08-15}{2026-08-16}\\
+\ganttgroup{Ingeniería y prototipo}{2026-08-15}{2026-08-19}\\
+\ganttbar{Potencia y batería}{2026-08-15}{2026-08-16}\\
+\ganttbar{Prototipo parcial}{2026-08-17}{2026-08-18}\\
+\ganttbar{Diseño mecánico}{2026-08-17}{2026-08-19}\\
+\ganttgroup{Construcción e integración}{2026-08-20}{2026-08-23}\\
+\ganttbar{Construcción}{2026-08-20}{2026-08-21}\\
+\ganttbar{Cableado e integración}{2026-08-22}{2026-08-23}\\
+\ganttgroup{Validación}{2026-08-23}{2026-08-24}\\
+\ganttbar{Pruebas completas}{2026-08-23}{2026-08-24}\\
+\ganttmilestone{Ensayo general}{2026-08-24}
 \end{ganttchart}}
-\caption{Cronograma referencial. Debe ajustarse a la fecha oficial y disponibilidad del equipo.}
+\caption{Cronograma referencial de 20 días, ajustado a la fecha final del 24 de agosto de 2026. Debe confirmarse con la fecha oficial y la disponibilidad del equipo.}
 \end{figure}
 \end{landscape}
 
@@ -880,31 +883,41 @@ Carga insegura de batería & Baja & Alto & Cargador apropiado y responsable desi
 
 % ============================================================
 \section{Organización del repositorio y control de versiones}
-\begin{lstlisting}[style=code,language={},caption={Estructura incluida en el paquete}]
-Estandarte_IME_Gran_Plan_2026/
-|-- Gran_Plan_Trabajo_Simulacion_Estandarte_IME.tex
-|-- Gran_Plan_Trabajo_Simulacion_Estandarte_IME.pdf
-|-- README_INICIO.md
+\begin{lstlisting}[style=code,language={},caption={Estructura del repositorio}]
+Estandarte-LED-Interactivo-conIA/
+|-- README.md
+|-- INICIO.md
+|-- documentacion/
+|   |-- gran_plan/
+|   |   |-- Gran_Plan_Trabajo_Simulacion_Estandarte_IME.tex
+|   |   `-- Gran_Plan_Trabajo_Simulacion_Estandarte_IME.pdf
+|   |-- informe/informe_final.md
+|   `-- control/analisis_control.md
 |-- simulacion_visual/
 |   `-- Simulador_Visual_Estandarte_IME.html
-|-- wokwi_integrado/
-|   |-- sketch.ino
-|   |-- diagram.json
-|   |-- libraries.txt
-|   `-- README_WOKWI.md
-|-- platformio_simulacion/
-|   |-- platformio.ini
-|   |-- wokwi.toml
-|   |-- diagram.json
-|   `-- src/main.cpp
-|-- arquitectura_3_esp32/
-|   |-- comun/protocolo.h
-|   |-- central/central_maestro.ino
-|   |-- mecanica/receptor_mecanica.ino
-|   `-- electrica/receptor_electrica.ino
+|-- software/
+|   |-- simulaciones/wokwi/
+|   |   |-- sketch.ino
+|   |   |-- diagram.json
+|   |   `-- libraries.txt
+|   |-- simulaciones/platformio/
+|   |   |-- platformio.ini
+|   |   |-- wokwi.toml
+|   |   |-- diagram.json
+|   |   `-- src/main.cpp
+|   |-- firmware/arquitectura_3_esp32/
+|   |   |-- comun/protocolo.h
+|   |   |-- central/central_maestro.ino
+|   |   |-- mecanica/receptor_mecanica.ino
+|   |   `-- electrica/receptor_electrica.ino
+|   `-- firmware/prototipo_IA/
+|-- hardware/
+|   `-- circuito/
+|       |-- diagramas/esquematico.svg
+|       `-- guias/montaje_pruebas_dias1-3.md
 `-- recursos/
     |-- captura_simulador.png
-    `-- codigos QR
+    `-- codigos QR (qr_wokwi, qr_github, qr_platformio, qr_espnow)
 \end{lstlisting}
 
 \subsection{Reglas de trabajo}
@@ -972,22 +985,22 @@ Abrir \texttt{simulacion\_visual/Simulador\_Visual\_Estandarte\_IME.html}, revis
 % ============================================================
 \appendix
 \section{Anexo A: archivo PlatformIO}
-\lstinputlisting[style=code,language={},caption={platformio.ini}]{platformio_simulacion/platformio.ini}
+\lstinputlisting[style=code,language={},caption={platformio.ini}]{../../software/simulaciones/platformio/platformio.ini}
 
 \section{Anexo B: configuración Wokwi local}
-\lstinputlisting[style=code,language={},caption={wokwi.toml}]{platformio_simulacion/wokwi.toml}
+\lstinputlisting[style=code,language={},caption={wokwi.toml}]{../../software/simulaciones/platformio/wokwi.toml}
 
 \section{Anexo C: protocolo común de tres ESP32}
-\lstinputlisting[style=code,language={},caption={protocolo.h}]{arquitectura_3_esp32/comun/protocolo.h}
+\lstinputlisting[style=code,language={},caption={protocolo.h}]{../../software/firmware/arquitectura_3_esp32/comun/protocolo.h}
 
 \section{Anexo D: firmware del ESP32 central}
-\lstinputlisting[style=code,language={},firstline=1,lastline=14,caption={Inicio y dependencias del firmware central}]{arquitectura_3_esp32/central/central-maestro.ino}\par\smallskip El archivo completo se incluye en el paquete ZIP.
+\lstinputlisting[style=code,language={},firstline=1,lastline=14,caption={Inicio y dependencias del firmware central}]{../../software/firmware/arquitectura_3_esp32/central/central_maestro.ino}\par\smallskip El archivo completo se incluye en el paquete ZIP.
 
 \section{Anexo E: receptor Mecánica}
-\lstinputlisting[style=code,language={},caption={Firmware receptor Mecánica}]{arquitectura_3_esp32/mecanica/receptor-mecanica.ino}
+\lstinputlisting[style=code,language={},caption={Firmware receptor Mecánica}]{../../software/firmware/arquitectura_3_esp32/mecanica/receptor_mecanica.ino}
 
 \section{Anexo F: receptor Eléctrica}
-\lstinputlisting[style=code,language={},caption={Firmware receptor Eléctrica}]{arquitectura_3_esp32/electrica/receptor-electrica.ino}
+\lstinputlisting[style=code,language={},caption={Firmware receptor Eléctrica}]{../../software/firmware/arquitectura_3_esp32/electrica/receptor_electrica.ino}
 
 \section{Anexo G: enlaces oficiales}
 \begin{thebibliography}{99}

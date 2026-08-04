@@ -1,93 +1,1542 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Simulador visual - Estandarte IME</title>
-<style>
-:root{--bg:#071a2b;--panel:#0d2a42;--card:#102f49;--text:#eff8ff;--muted:#9db3c5;--line:#2b5877;--mech:#f28c00;--elec:#00aeef;--zeus:#7b4dff;--gold:#f6c445;--ok:#23c483;--danger:#ff5468}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(145deg,#04111e,#0b2c47);color:var(--text)}
-main{max-width:1180px;margin:auto;padding:22px}.hero{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:18px}.hero h1{font-size:clamp(24px,4vw,42px);margin:0}.hero p{color:var(--muted);max-width:720px}.badge{padding:7px 11px;border:1px solid #315f7e;border-radius:999px;color:#bfeeff;white-space:nowrap}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tabs button,.control button{border:1px solid var(--line);background:#0a2238;color:var(--text);padding:10px 14px;border-radius:10px;cursor:pointer}.tabs button.active,.control button.primary{background:#00aeee;color:#001523;border-color:#65d7ff;font-weight:700}.view{display:none}.view.active{display:block}.card{background:rgba(13,42,66,.93);border:1px solid var(--line);border-radius:18px;padding:16px}.grid{display:grid;gap:14px}.controls{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:14px}.control label{display:block;color:var(--muted);font-size:13px;margin-bottom:7px}.control select,.control input{width:100%}.stage{display:grid;grid-template-columns:minmax(90px,.75fr) minmax(360px,2.5fr) minmax(90px,.75fr);gap:14px;min-height:570px}.banner{position:relative;border:1px solid #346481;border-radius:22px;background:linear-gradient(180deg,#102c45,#071d30);overflow:hidden}.side{display:flex;justify-content:center;align-items:center}.vword{writing-mode:vertical-rl;text-orientation:upright;letter-spacing:8px;font-size:22px;font-weight:800;opacity:.22}.column{position:absolute;top:18px;bottom:18px;display:grid;grid-template-rows:repeat(24,1fr);gap:5px}.led{width:15px;height:15px;border-radius:50%;background:#23425a;opacity:.2;transition:.08s}.center{padding:24px;text-align:center}.center h2{font-size:clamp(18px,3vw,32px);margin:8px 0 2px}.center .subtitle{color:var(--muted)}.matrix{width:min(390px,90%);aspect-ratio:1;margin:26px auto 12px;display:grid;grid-template-columns:repeat(12,1fr);gap:5px;background:#061522;border:1px solid #315a75;padding:14px;border-radius:20px}.pixel{aspect-ratio:1;border-radius:4px;background:#26465e;opacity:.18;transition:.08s}.statusrow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.stat{background:#071e31;border:1px solid #2a5876;border-radius:12px;padding:10px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:19px;margin-top:3px}.online{color:var(--ok)}
-.circuit{min-height:700px;position:relative;overflow:hidden}.circuit svg{width:100%;height:auto;display:block}.node{fill:#102f49;stroke:#4e7793;stroke-width:2}.node.main{stroke:#00aeef}.node.power{stroke:#f28c00}.node.driver{stroke:#7b4dff}.node.ledbox{stroke:#23c483}.txt{fill:#eff8ff;font-size:16px;font-weight:700}.sub{fill:#9db3c5;font-size:12px}.wire{fill:none;stroke-width:4}.red{stroke:#ff5b65}.black{stroke:#98a9b6}.green{stroke:#23c483}.blue{stroke:#00aeef}.purple{stroke:#9a73ff}.orange{stroke:#f28c00}.dash{stroke-dasharray:10 7}.pulse{animation:dash 1s linear infinite}@keyframes dash{to{stroke-dashoffset:-34}}
-.network{display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:22px;align-items:center;min-height:540px}.device{background:#0b243a;border:2px solid #386885;border-radius:20px;padding:20px;text-align:center}.device.master{border-color:#00aeef}.device h3{margin:5px 0}.device ul{text-align:left;color:var(--muted);line-height:1.65}.radio{height:3px;background:repeating-linear-gradient(90deg,#00aeef 0 16px,transparent 16px 26px);position:relative}.radio:after{content:'ESP-NOW';position:absolute;left:50%;top:-32px;transform:translateX(-50%);padding:5px 9px;border-radius:999px;background:#0a2238;border:1px solid #2f6687;color:#bfeeff;font-size:12px}.phone{width:100px;height:180px;border:7px solid #aac2d3;border-radius:20px;margin:10px auto;background:#06131e;padding:8px;display:grid;gap:6px}.phone i{border-radius:6px;background:#10334e}.phone i:first-child{background:#00aeef}.flow{display:flex;align-items:center;gap:8px;justify-content:center;color:var(--muted);margin:16px 0}.arrow{font-size:24px;color:#00aeef}
-.links{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.links a{display:block;text-decoration:none;color:var(--text);border:1px solid var(--line);background:#0a2238;border-radius:14px;padding:14px}.links a strong{display:block;color:#78dcff;margin-bottom:4px}.foot{margin-top:20px;color:var(--muted);font-size:13px}
-@media(max-width:850px){.controls{grid-template-columns:1fr 1fr}.stage{grid-template-columns:65px 1fr 65px;min-height:470px}.network{grid-template-columns:1fr}.radio{height:70px;width:3px;margin:auto;background:repeating-linear-gradient(180deg,#00aeef 0 16px,transparent 16px 26px)}.radio:after{left:24px;top:22px;transform:none}.links{grid-template-columns:1fr}.statusrow{grid-template-columns:1fr 1fr}.vword{font-size:12px;letter-spacing:2px}.led{width:10px;height:10px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulador Visual High-Tech - Estandarte LED IME 2026</title>
+
+  <!-- Google Fonts for Futuristic & Clean Design -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Orbitron:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #060913;
+      --bg-grid: rgba(0, 240, 255, 0.03);
+      --card-bg: rgba(13, 22, 40, 0.75);
+      --card-hover: rgba(18, 30, 54, 0.85);
+      --card-border: rgba(0, 240, 255, 0.15);
+      --card-border-light: rgba(255, 255, 255, 0.08);
+
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --mech-amber: #ff7700;
+      --mech-amber-glow: rgba(255, 119, 0, 0.4);
+      --elec-cyan: #00f0ff;
+      --elec-cyan-glow: rgba(0, 240, 255, 0.4);
+      --zeus-purple: #a855f7;
+      --zeus-purple-glow: rgba(168, 85, 247, 0.4);
+      --gold-spark: #ffb703;
+      --ok-green: #10b981;
+      --danger-red: #ef4444;
+
+      --font-heading: 'Orbitron', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-main);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(0, 240, 255, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(168, 85, 247, 0.08) 0%, transparent 45%),
+        linear-gradient(to right, var(--bg-grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--bg-grid) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* Container layout */
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+    }
+
+    /* Header / Hero Section */
+    .hero-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--card-border-light);
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .hero-title-area h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(22px, 3.5vw, 36px);
+      font-weight: 900;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #ffffff 0%, var(--elec-cyan) 60%, var(--zeus-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-title-area h1 span.icon {
+      font-size: 1.1em;
+      -webkit-text-fill-color: initial;
+    }
+
+    .hero-title-area p {
+      color: var(--text-muted);
+      font-size: 14px;
+      max-width: 760px;
+    }
+
+    .header-badges {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      color: var(--elec-cyan);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.15);
+    }
+
+    .badge.live {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: var(--ok-green);
+    }
+
+    .dot-pulsing {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--ok-green);
+      box-shadow: 0 0 8px var(--ok-green);
+      animation: pulse-dot 1.5s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.5; }
+    }
+
+    /* Tabs Navigation */
+    .tabs-nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      background: rgba(10, 16, 28, 0.6);
+      padding: 6px;
+      border-radius: 16px;
+      border: 1px solid var(--card-border-light);
+      backdrop-filter: blur(12px);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .tab-btn.active {
+      color: #000;
+      background: linear-gradient(135deg, var(--elec-cyan), #4facfe);
+      font-weight: 700;
+      box-shadow: 0 0 20px var(--elec-cyan-glow);
+    }
+
+    /* Views container */
+    .view-content {
+      display: none;
+      animation: fadeIn 0.35s ease-in-out;
+    }
+
+    .view-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Glass Cards */
+    .glass-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Tab 1: Controls Panel */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .control-item label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .control-item label span.val {
+      color: var(--elec-cyan);
+      font-family: var(--font-code);
+      font-weight: 700;
+    }
+
+    .select-input, .range-input {
+      width: 100%;
+      background: rgba(6, 10, 19, 0.8);
+      border: 1px solid var(--card-border-light);
+      border-radius: 10px;
+      color: var(--text-main);
+      padding: 10px 14px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .select-input:focus {
+      border-color: var(--elec-cyan);
+      box-shadow: 0 0 10px var(--elec-cyan-glow);
+    }
+
+    /* Custom range input styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      height: 8px;
+      background: #111a2e;
+      border-radius: 4px;
+      margin-top: 6px;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: var(--elec-cyan);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--elec-cyan-glow);
+      transition: transform 0.15s;
+    }
+
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border-light);
+      background: rgba(15, 25, 45, 0.8);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .action-btn:hover {
+      background: rgba(30, 45, 75, 0.9);
+      border-color: var(--card-border);
+      transform: translateY(-1px);
+    }
+
+    .action-btn.primary {
+      background: linear-gradient(135deg, var(--elec-cyan), #00a8ff);
+      color: #030a16;
+      border: none;
+      box-shadow: 0 0 15px var(--elec-cyan-glow);
+    }
+
+    .action-btn.primary:hover {
+      box-shadow: 0 0 25px var(--elec-cyan-glow);
+    }
+
+    .action-btn.purple {
+      background: linear-gradient(135deg, var(--zeus-purple), #7c3aed);
+      color: #fff;
+      border: none;
+      box-shadow: 0 0 15px var(--zeus-purple-glow);
+    }
+
+    /* Stage Presentation */
+    .stage-container {
+      display: grid;
+      grid-template-columns: minmax(110px, 0.75fr) minmax(360px, 2.5fr) minmax(110px, 0.75fr);
+      gap: 16px;
+      min-height: 560px;
+      margin-bottom: 20px;
+    }
+
+    .banner-module {
+      position: relative;
+      background: linear-gradient(180deg, rgba(15, 26, 48, 0.9) 0%, rgba(8, 14, 26, 0.95) 100%);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .banner-module.side-module {
+      padding: 16px 12px;
+      align-items: center;
+    }
+
+    .v-title {
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      letter-spacing: 6px;
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 900;
+      opacity: 0.35;
+      color: var(--text-muted);
+      user-select: none;
+    }
+
+    .side-module.mech .v-title { color: var(--mech-amber); opacity: 0.6; text-shadow: 0 0 10px var(--mech-amber-glow); }
+    .side-module.elec .v-title { color: var(--elec-cyan); opacity: 0.6; text-shadow: 0 0 10px var(--elec-cyan-glow); }
+
+    .led-column {
+      display: grid;
+      grid-template-rows: repeat(24, 1fr);
+      gap: 5px;
+      height: 90%;
+      width: 100%;
+      justify-items: center;
+      align-items: center;
+      padding: 10px 0;
+    }
+
+    .led-bulb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #152238;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: background-color 0.06s ease, box-shadow 0.06s ease, opacity 0.06s ease;
+    }
+
+    /* Center Module */
+    .banner-module.center-module {
+      padding: 24px;
+      text-align: center;
+      align-items: center;
+    }
+
+    .center-header .subtitle {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--elec-cyan);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .center-header h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(18px, 2.8vw, 28px);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .center-header .tagline {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .matrix-wrapper {
+      position: relative;
+      margin: 20px auto;
+      padding: 16px;
+      background: #040812;
+      border: 2px solid rgba(168, 85, 247, 0.4);
+      border-radius: 24px;
+      box-shadow: 0 0 30px rgba(168, 85, 247, 0.15), inset 0 0 20px rgba(0, 0, 0, 0.9);
+    }
+
+    .matrix-grid {
+      width: min(340px, 80vw);
+      aspect-ratio: 1;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 5px;
+    }
+
+    .pixel-bulb {
+      aspect-ratio: 1;
+      border-radius: 4px;
+      background: #111a2c;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      transition: background-color 0.06s ease, box-shadow 0.06s ease;
+    }
+
+    .center-footer {
+      font-family: var(--font-heading);
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: var(--zeus-purple);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Live Audio Spectrum Bar */
+    .audio-spectrum-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .audio-spectrum-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--elec-cyan), var(--zeus-purple), var(--gold-spark));
+      transition: width 0.08s ease-out;
+    }
+
+    /* Live Telemetry / Metrics Row */
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .metric-card {
+      background: rgba(9, 15, 28, 0.7);
+      border: 1px solid var(--card-border-light);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .metric-icon {
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(0, 240, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--elec-cyan);
+    }
+
+    .metric-data small {
+      display: block;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .metric-data strong {
+      display: block;
+      font-family: var(--font-code);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Tab 2: Interactive SVG Circuit */
+    .circuit-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .circuit-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .filter-tags {
+      display: flex;
+      gap: 8px;
+    }
+
+    .filter-tag {
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border-light);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-tag.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: var(--elec-cyan);
+      color: var(--elec-cyan);
+    }
+
+    .svg-wrapper {
+      width: 100%;
+      background: #040711;
+      border: 1px solid var(--card-border-light);
+      border-radius: 16px;
+      padding: 10px;
+    }
+
+    .svg-wrapper svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* SVG schematic styles */
+    .node-box {
+      fill: #0d172a;
+      stroke: #334155;
+      stroke-width: 2;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .node-box:hover {
+      fill: #1e293b;
+      stroke: var(--elec-cyan);
+      filter: drop-shadow(0 0 8px var(--elec-cyan-glow));
+    }
+
+    .node-main { stroke: var(--elec-cyan); }
+    .node-power { stroke: var(--mech-amber); }
+    .node-driver { stroke: var(--zeus-purple); }
+    .node-led { stroke: var(--ok-green); }
+
+    .wire-line {
+      fill: none;
+      stroke-width: 3.5;
+      stroke-linecap: round;
+    }
+
+    .wire-power { stroke: #ff4757; }
+    .wire-ground { stroke: #94a3b8; stroke-dasharray: 4 4; }
+    .wire-data { stroke: var(--ok-green); }
+    .wire-logic { stroke: var(--elec-cyan); }
+    .wire-wifi { stroke: var(--zeus-purple); stroke-dasharray: 8 6; }
+
+    .pulse-wire {
+      animation: dash-flow 1.2s linear infinite;
+    }
+
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -32; }
+    }
+
+    .svg-text-title {
+      fill: #f8fafc;
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .svg-text-sub {
+      fill: #94a3b8;
+      font-family: var(--font-body);
+      font-size: 11px;
+    }
+
+    /* Component Info Modal / Drawer */
+    .info-tooltip {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(10, 18, 34, 0.95);
+      border: 1px solid var(--elec-cyan);
+      border-radius: 12px;
+      padding: 14px 18px;
+      max-width: 320px;
+      color: var(--text-main);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      backdrop-filter: blur(12px);
+      display: none;
+      z-index: 10;
+    }
+
+    .info-tooltip h4 {
+      font-family: var(--font-heading);
+      color: var(--elec-cyan);
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .info-tooltip p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Tab 3: Wireless Communication & Network */
+    .network-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr 1fr;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .node-card {
+      background: rgba(9, 15, 28, 0.8);
+      border: 1px solid var(--card-border-light);
+      border-radius: 18px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.25s;
+    }
+
+    .node-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--card-border);
+    }
+
+    .node-card.master-card {
+      border-color: var(--elec-cyan);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.15);
+      background: linear-gradient(180deg, rgba(13, 25, 48, 0.9) 0%, rgba(9, 15, 28, 0.9) 100%);
+    }
+
+    .node-card h3 {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .phone-mockup {
+      width: 110px;
+      height: 190px;
+      border: 6px solid #334155;
+      border-radius: 22px;
+      margin: 14px auto;
+      background: #02050b;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .phone-mockup .notch {
+      width: 36px;
+      height: 4px;
+      background: #334155;
+      border-radius: 2px;
+      margin: 0 auto 4px;
+    }
+
+    .phone-screen-bar {
+      height: 14px;
+      border-radius: 4px;
+      background: rgba(0, 240, 255, 0.2);
+    }
+
+    .phone-screen-bar.active {
+      background: var(--elec-cyan);
+    }
+
+    .espnow-wave-line {
+      height: 4px;
+      background: repeating-linear-gradient(90deg, var(--elec-cyan) 0 16px, transparent 16px 28px);
+      position: relative;
+      border-radius: 2px;
+      animation: wave-move 1.5s linear infinite;
+    }
+
+    @keyframes wave-move {
+      from { background-position: 0 0; }
+      to { background-position: 56px 0; }
+    }
+
+    .espnow-badge {
+      position: absolute;
+      top: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 18, 34, 0.9);
+      border: 1px solid var(--elec-cyan);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-family: var(--font-code);
+      font-size: 11px;
+      color: var(--elec-cyan);
+    }
+
+    /* Terminal Console */
+    .terminal-card {
+      background: #02050b;
+      border: 1px solid var(--card-border-light);
+      border-radius: 16px;
+      padding: 16px;
+      font-family: var(--font-code);
+      font-size: 12px;
+    }
+
+    .terminal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      color: var(--text-muted);
+    }
+
+    .terminal-logs {
+      height: 140px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .log-line {
+      color: var(--text-muted);
+    }
+
+    .log-line .ts { color: var(--text-dim); }
+    .log-line .ok { color: var(--ok-green); }
+    .log-line .info { color: var(--elec-cyan); }
+    .log-line .warn { color: var(--gold-spark); }
+
+    /* Tab 4: Links & Documentation Grid */
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .link-card {
+      text-decoration: none;
+      background: rgba(13, 22, 40, 0.75);
+      border: 1px solid var(--card-border-light);
+      border-radius: 16px;
+      padding: 20px;
+      color: var(--text-main);
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .link-card:hover {
+      background: rgba(20, 32, 58, 0.9);
+      border-color: var(--elec-cyan);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 240, 255, 0.1);
+    }
+
+    .link-card h4 {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      color: var(--elec-cyan);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .link-card p {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 30px;
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+
+    /* Media Queries */
+    @media (max-width: 900px) {
+      .stage-container {
+        grid-template-columns: 80px 1fr 80px;
+        min-height: 480px;
+      }
+      .network-grid {
+        grid-template-columns: 1fr;
+      }
+      .espnow-wave-line {
+        height: 40px;
+        width: 4px;
+        margin: 10px auto;
+        background: repeating-linear-gradient(180deg, var(--elec-cyan) 0 16px, transparent 16px 28px);
+      }
+      .espnow-badge {
+        left: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .stage-container {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .banner-module.side-module {
+        height: 180px;
+        flex-direction: row;
+      }
+      .led-column {
+        grid-template-columns: repeat(24, 1fr);
+        grid-template-rows: 1fr;
+        width: 100%;
+        height: 30px;
+      }
+    }
+  </style>
 </head>
 <body>
+
 <main>
-  <div class="hero"><div><h1>Simulador visual del Estandarte IME</h1><p>Vista conceptual interactiva del sistema: tres estandartes móviles, circuito electrónico por módulo y coordinación inalámbrica entre ESP32.</p></div><span class="badge">Parada Universitaria 2026</span></div>
-  <div class="tabs"><button class="active" data-view="estandarte">Estandartes iluminados</button><button data-view="circuito">Circuito y drivers</button><button data-view="red">Comunicación inalámbrica</button><button data-view="enlaces">Enlaces de trabajo</button></div>
+  <!-- Header / Hero Section -->
+  <header class="hero-header">
+    <div class="hero-title-area">
+      <h1><span class="icon">⚡</span> Estandarte LED IME — Interactive Visual Lab</h1>
+      <p>Simulador conceptual en tiempo real: Coordinación inalámbrica entre 3× ESP32, efectos lumínicos interactivos, matriz central Zeus y monitoreo del circuito.</p>
+    </div>
+    <div class="header-badges">
+      <span class="badge live"><span class="dot-pulsing"></span> Sistema En Línea</span>
+      <span class="badge">Parada Universitaria 2026</span>
+    </div>
+  </header>
 
-  <section id="estandarte" class="view active">
-    <div class="grid controls">
-      <div class="card control"><label for="mode">Modo</label><select id="mode"><option value="institutional">Institucional</option><option value="flow">Flujo Mecánica → Zeus → Eléctrica</option><option value="audio">Audio / VU</option><option value="storm">Tormenta Zeus</option><option value="parade">Desfile</option></select></div>
-      <div class="card control"><label>Brillo <b id="brightVal">70%</b></label><input id="bright" type="range" min="10" max="100" value="70"></div>
-      <div class="card control"><label>Sonido simulado <b id="soundVal">45%</b></label><input id="sound" type="range" min="0" max="100" value="45"></div>
-      <div class="card control"><label>Control</label><button id="sequence" class="primary">Ejecutar secuencia</button> <button id="pause">Pausar</button></div>
+  <!-- Navigation Tabs -->
+  <nav class="tabs-nav" aria-label="Secciones del simulador">
+    <button class="tab-btn active" data-tab="tab-estandartes">✨ Estandartes Iluminados</button>
+    <button class="tab-btn" data-tab="tab-circuito">🔌 Circuito &amp; Schematics</button>
+    <button class="tab-btn" data-tab="tab-red">📡 Red Wireless ESP-NOW</button>
+    <button class="tab-btn" data-tab="tab-enlaces">🔗 Enlaces &amp; Documentación</button>
+  </nav>
+
+  <!-- TAB 1: ESTANDARTES ILUMINADOS -->
+  <section id="tab-estandartes" class="view-content active">
+    <!-- Controls Bar -->
+    <div class="glass-card controls-grid">
+      <div class="control-item">
+        <label for="mode-select">Modo de Iluminación</label>
+        <select id="mode-select" class="select-input">
+          <option value="institutional">🏛️ Modo Institucional</option>
+          <option value="flow">⚡ Flujo IME (Mecánica → Zeus → Eléctrica)</option>
+          <option value="audio">🎵 Audio Reactivo / VU Meter</option>
+          <option value="storm">🌩️ Tormenta de Zeus</option>
+          <option value="parade">🎉 Desfile Cyberpunk</option>
+          <option value="pulse_ai">🧠 Pulso Neuronal IA</option>
+        </select>
+      </div>
+
+      <div class="control-item">
+        <label for="brightness-slider">Brillo Global <span id="bright-val" class="val">75%</span></label>
+        <input id="brightness-slider" class="range-input" type="range" min="10" max="100" value="75">
+      </div>
+
+      <div class="control-item">
+        <label for="audio-slider">Entrada de Audio Simulado <span id="audio-val" class="val">50%</span></label>
+        <input id="audio-slider" class="range-input" type="range" min="0" max="100" value="50">
+        <div class="audio-spectrum-bar"><div id="spectrum-fill" class="audio-spectrum-fill"></div></div>
+      </div>
+
+      <div class="control-item">
+        <label>Acciones de Control</label>
+        <div class="btn-group">
+          <button id="btn-sequence" class="action-btn primary">▶ Ejecutar Secuencia</button>
+          <button id="btn-pause" class="action-btn">⏸ Pausar</button>
+        </div>
+      </div>
     </div>
-    <div class="stage">
-      <article class="banner side"><div class="vword">MECÁNICA</div><div id="left" class="column"></div></article>
-      <article class="banner center"><div class="subtitle">ESCUELA PROFESIONAL</div><h2>INGENIERÍA MECÁNICA ELÉCTRICA</h2><div class="subtitle">Energía, movimiento e innovación</div><div id="matrix" class="matrix"></div><div>ZEUS / RAYO CENTRAL</div></article>
-      <article class="banner side"><div class="vword">ELÉCTRICA</div><div id="right" class="column"></div></article>
+
+    <!-- Stage Simulation -->
+    <div class="stage-container">
+      <!-- Left Banner: Mecánica -->
+      <article class="banner-module side-module mech">
+        <div class="v-title">MECÁNICA</div>
+        <div id="leds-left" class="led-column"></div>
+      </article>
+
+      <!-- Center Banner: Zeus Matrix -->
+      <article class="banner-module center-module">
+        <header class="center-header">
+          <div class="subtitle">ESCUELA PROFESIONAL</div>
+          <h2>INGENIERÍA MECÁNICA ELÉCTRICA</h2>
+          <div class="tagline">Energía, Movimiento e Innovación Tecnológica</div>
+        </header>
+
+        <div class="matrix-wrapper">
+          <div id="leds-matrix" class="matrix-grid"></div>
+        </div>
+
+        <footer class="center-footer">
+          <span>⚡ MATRIZ CENTRAL ZEUS (144 LEDS)</span>
+        </footer>
+      </article>
+
+      <!-- Right Banner: Eléctrica -->
+      <article class="banner-module side-module elec">
+        <div class="v-title">ELÉCTRICA</div>
+        <div id="leds-right" class="led-column"></div>
+      </article>
     </div>
-    <div class="statusrow"><div class="stat"><small>ESP32 central</small><strong class="online">CONECTADO</strong></div><div class="stat"><small>Mecánica</small><strong class="online">RECIBIENDO</strong></div><div class="stat"><small>Eléctrica</small><strong class="online">RECIBIENDO</strong></div><div class="stat"><small>Consumo simulado</small><strong id="power">4.8 A</strong></div></div>
+
+    <!-- Real-time Metrics Dashboard -->
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-icon">🔋</div>
+        <div class="metric-data">
+          <small>Consumo Estimado</small>
+          <strong id="metric-power">4.2 A (21.0 W)</strong>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon">📡</div>
+        <div class="metric-data">
+          <small>Estado Red ESP-NOW</small>
+          <strong style="color: var(--ok-green)">3 NODOS OK (0.4ms)</strong>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon">⚡</div>
+        <div class="metric-data">
+          <small>Frecuencia / FPS</small>
+          <strong id="metric-fps">60 FPS</strong>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon">🎛️</div>
+        <div class="metric-data">
+          <small>Nivel de Brillo Activo</small>
+          <strong id="metric-bright">75 %</strong>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section id="circuito" class="view card circuit">
-    <svg viewBox="0 0 1180 720" role="img" aria-label="Diagrama del ESP32, baterías, convertidores, drivers y tres zonas LED">
-      <defs><marker id="arr" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="currentColor"/></marker></defs>
-      <text x="590" y="35" text-anchor="middle" class="txt" style="font-size:24px">Circuito integrado de simulación y equivalencia física</text>
-      <rect class="node power" x="30" y="90" rx="14" width="185" height="90"/><text class="txt" x="122" y="125" text-anchor="middle">BATERÍA CENTRAL</text><text class="sub" x="122" y="150" text-anchor="middle">12 V / capacidad a definir</text>
-      <rect class="node power" x="265" y="90" rx="14" width="180" height="90"/><text class="txt" x="355" y="125" text-anchor="middle">DC-DC 5 V</text><text class="sub" x="355" y="150" text-anchor="middle">fusible + interruptor</text>
-      <rect class="node main" x="500" y="70" rx="18" width="210" height="130"/><text class="txt" x="605" y="112" text-anchor="middle">ESP32 CENTRAL</text><text class="sub" x="605" y="138" text-anchor="middle">Wi-Fi + ESP-NOW</text><text class="sub" x="605" y="160" text-anchor="middle">GPIO 16 / 17 / 18</text>
-      <rect class="node driver" x="770" y="90" rx="14" width="180" height="90"/><text class="txt" x="860" y="125" text-anchor="middle">74AHCT125</text><text class="sub" x="860" y="150" text-anchor="middle">3.3 V → 5 V lógico</text>
-      <rect class="node ledbox" x="1000" y="70" rx="18" width="150" height="130"/><text class="txt" x="1075" y="110" text-anchor="middle">ZEUS</text><text class="sub" x="1075" y="136" text-anchor="middle">matriz / tiras</text><text class="sub" x="1075" y="158" text-anchor="middle">panel central</text>
-      <path class="wire red pulse" d="M215 120H265"/><path class="wire red pulse" d="M445 120H500"/><path class="wire green pulse" d="M710 120H770"/><path class="wire green pulse" d="M950 120H1000"/>
-      <text class="sub" x="238" y="108">12 V</text><text class="sub" x="468" y="108">5 V</text><text class="sub" x="735" y="108">datos</text><text class="sub" x="968" y="108">DIN</text>
+  <!-- TAB 2: CIRCUITO & SCHEMATICS -->
+  <section id="tab-circuito" class="view-content">
+    <div class="glass-card circuit-container">
+      <div class="circuit-toolbar">
+        <div>
+          <h3 style="font-family: var(--font-heading); color: #fff; font-size: 18px;">Diagrama de Conexión del Sistema Integral</h3>
+          <p style="color: var(--text-muted); font-size: 13px;">Haz clic en cualquier componente para ver sus especificaciones técnicas y requerimientos de voltaje.</p>
+        </div>
+        <div class="filter-tags">
+          <button class="filter-tag active" data-filter="all">Todos</button>
+          <button class="filter-tag" data-filter="power">Alimentación (12V/5V)</button>
+          <button class="filter-tag" data-filter="data">Datos WS2812</button>
+          <button class="filter-tag" data-filter="wifi">ESP-NOW Wireless</button>
+        </div>
+      </div>
 
-      <rect class="node" x="485" y="250" rx="14" width="240" height="92"/><text class="txt" x="605" y="284" text-anchor="middle">ENTRADAS Y CONTROL</text><text class="sub" x="605" y="309" text-anchor="middle">MAX4466 · botones · OLED · LDR</text>
-      <path class="wire blue dash pulse" d="M605 250V200"/>
+      <div class="svg-wrapper">
+        <svg viewBox="0 0 1180 660" role="img" aria-label="Diagrama esquemático interactivo del estandarte LED">
+          <defs>
+            <linearGradient id="grad-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#0077ff" stop-opacity="0.8"/>
+            </linearGradient>
+          </defs>
 
-      <rect class="node power" x="30" y="450" rx="14" width="180" height="92"/><text class="txt" x="120" y="483" text-anchor="middle">BATERÍA MECÁNICA</text><text class="sub" x="120" y="510" text-anchor="middle">protección independiente</text>
-      <rect class="node main" x="285" y="430" rx="18" width="200" height="132"/><text class="txt" x="385" y="470" text-anchor="middle">ESP32 MECÁNICA</text><text class="sub" x="385" y="498" text-anchor="middle">receptor ESP-NOW</text><text class="sub" x="385" y="523" text-anchor="middle">efectos locales</text>
-      <rect class="node driver" x="555" y="450" rx="14" width="170" height="92"/><text class="txt" x="640" y="483" text-anchor="middle">DRIVER LÓGICO</text><text class="sub" x="640" y="510" text-anchor="middle">74AHCT125</text>
-      <rect class="node ledbox" x="790" y="430" rx="18" width="180" height="132"/><text class="txt" x="880" y="470" text-anchor="middle">MECÁNICA</text><text class="sub" x="880" y="498" text-anchor="middle">tiras verticales</text><text class="sub" x="880" y="523" text-anchor="middle">engranajes / barrido</text>
-      <path class="wire red pulse" d="M210 485H285"/><path class="wire green pulse" d="M485 485H555"/><path class="wire green pulse" d="M725 485H790"/>
+          <!-- Module Boxes -->
+          <!-- Batería Central -->
+          <g class="comp-node" data-title="Batería Central (12V)" data-desc="Alimentación independiente LiFePO4 / Li-Ion de 12V 10Ah con BMS integrado. Proporciona energía pura para la matriz central Zeus.">
+            <rect class="node-box node-power" x="40" y="70" rx="14" width="180" height="85"/>
+            <text class="svg-text-title" x="130" y="105" text-anchor="middle">BATERÍA CENTRAL</text>
+            <text class="svg-text-sub" x="130" y="130" text-anchor="middle">12V / 10Ah + BMS</text>
+          </g>
 
-      <rect class="node power" x="30" y="595" rx="14" width="180" height="92"/><text class="txt" x="120" y="628" text-anchor="middle">BATERÍA ELÉCTRICA</text><text class="sub" x="120" y="655" text-anchor="middle">protección independiente</text>
-      <rect class="node main" x="285" y="575" rx="18" width="200" height="132"/><text class="txt" x="385" y="615" text-anchor="middle">ESP32 ELÉCTRICA</text><text class="sub" x="385" y="643" text-anchor="middle">receptor ESP-NOW</text><text class="sub" x="385" y="668" text-anchor="middle">efectos locales</text>
-      <rect class="node driver" x="555" y="595" rx="14" width="170" height="92"/><text class="txt" x="640" y="628" text-anchor="middle">DRIVER LÓGICO</text><text class="sub" x="640" y="655" text-anchor="middle">74AHCT125</text>
-      <rect class="node ledbox" x="790" y="575" rx="18" width="180" height="132"/><text class="txt" x="880" y="615" text-anchor="middle">ELÉCTRICA</text><text class="sub" x="880" y="643" text-anchor="middle">tiras verticales</text><text class="sub" x="880" y="668" text-anchor="middle">rayos / descarga</text>
-      <path class="wire red pulse" d="M210 630H285"/><path class="wire green pulse" d="M485 630H555"/><path class="wire green pulse" d="M725 630H790"/>
+          <!-- DC-DC Buck Converter -->
+          <g class="comp-node" data-title="Convertidor DC-DC Buck 12V→5V" data-desc="Regulador step-down de alta eficiencia (8A) con fusible de protección. Entrega 5.0V estables a las tiras de LED y microcontrolador.">
+            <rect class="node-box node-power" x="270" y="70" rx="14" width="180" height="85"/>
+            <text class="svg-text-title" x="360" y="105" text-anchor="middle">DC-DC 5V (8A)</text>
+            <text class="svg-text-sub" x="360" y="130" text-anchor="middle">Fusible 10A + Switch</text>
+          </g>
 
-      <path class="wire blue dash pulse" d="M530 205C430 300 400 360 385 430"/><path class="wire blue dash pulse" d="M680 205C760 310 690 430 485 600"/><text class="sub" x="380" y="350">ESP-NOW</text><text class="sub" x="720" y="365">ESP-NOW</text>
-      <path class="wire black" d="M1020 240H1140V690H1000"/><text class="sub" x="1080" y="715" text-anchor="middle">GND común dentro de cada módulo; no hay cable entre estandartes</text>
-    </svg>
-  </section>
+          <!-- ESP32 Central Master -->
+          <g class="comp-node" data-title="ESP32 Central (Master)" data-desc="Microcontrolador principal dual-core. Crea el Access Point Wi-Fi 'ESTANDARTE_IME' con servidor web y coordina por ESP-NOW a los 2 sub-nodos.">
+            <rect class="node-box node-main" x="500" y="50" rx="18" width="220" height="125"/>
+            <text class="svg-text-title" x="610" y="92" text-anchor="middle">ESP32 CENTRAL</text>
+            <text class="svg-text-sub" x="610" y="118" text-anchor="middle">Servidor Web + ESP-NOW</text>
+            <text class="svg-text-sub" x="610" y="140" text-anchor="middle">GPIO 16, 17, 18</text>
+          </g>
 
-  <section id="red" class="view card">
-    <div class="network">
-      <div class="device"><h3>ESP32 Mecánica</h3><div class="phone" style="height:100px;width:100px;border-color:#f28c00"><i></i><i></i><i></i></div><ul><li>Batería propia</li><li>Driver 74AHCT125</li><li>Animaciones locales</li><li>Confirmación de comandos</li></ul></div>
-      <div><div class="device master"><h3>ESP32 central maestro</h3><div class="phone"><i></i><i></i><i></i><i></i><i></i></div><p>El celular se conecta a la red Wi-Fi <b>ESTANDARTE_IME</b> y abre una página de control.</p><div class="flow"><span>Celular</span><span class="arrow">⇄</span><span>Wi-Fi local</span><span class="arrow">⇄</span><span>ESP32</span></div></div><div class="radio"></div></div>
-      <div class="device"><h3>ESP32 Eléctrica</h3><div class="phone" style="height:100px;width:100px;border-color:#00aeef"><i></i><i></i><i></i></div><ul><li>Batería propia</li><li>Driver 74AHCT125</li><li>Efectos de descarga</li><li>Modo seguro autónomo</li></ul></div>
+          <!-- Level Shifter 74AHCT125 -->
+          <g class="comp-node" data-title="Driver Lógico 74AHCT125" data-desc="Level shifter de alta velocidad que eleva las señales de datos de 3.3V (salidas GPIO del ESP32) a 5.0V exigidos por los LEDs WS2812B.">
+            <rect class="node-box node-driver" x="775" y="70" rx="14" width="175" height="85"/>
+            <text class="svg-text-title" x="862" y="105" text-anchor="middle">74AHCT125</text>
+            <text class="svg-text-sub" x="862" y="130" text-anchor="middle">3.3V → 5.0V Level Shift</text>
+          </g>
+
+          <!-- Matriz Zeus -->
+          <g class="comp-node" data-title="Matriz Central Zeus (144 LEDs)" data-desc="Panel matricial central WS2812B de 12x12 píxeles direccionables con difusión acrílica transparente.">
+            <rect class="node-box node-led" x="1000" y="50" rx="18" width="145" height="125"/>
+            <text class="svg-text-title" x="1072" y="92" text-anchor="middle">ZEUS MATRIX</text>
+            <text class="svg-text-sub" x="1072" y="118" text-anchor="middle">144 Píxeles RGB</text>
+            <text class="svg-text-sub" x="1072" y="140" text-anchor="middle">Panel Central</text>
+          </g>
+
+          <!-- Control Sensors / Inputs -->
+          <g class="comp-node" data-title="Módulo de Sensores de Entrada" data-desc="Incluye micrófono de electreto MAX4466 con ganancia ajustable para audio-reactividad, pantalla OLED I2C SSD1306, botones táctiles y potenciómetro.">
+            <rect class="node-box" x="480" y="235" rx="14" width="260" height="85"/>
+            <text class="svg-text-title" x="610" y="270" text-anchor="middle">SENSORES DE ENTRADA</text>
+            <text class="svg-text-sub" x="610" y="295" text-anchor="middle">MAX4466 · OLED I2C · Botones</text>
+          </g>
+
+          <!-- Bottom Row: Estandarte Mecánica -->
+          <g class="comp-node" data-title="Batería Mecánica (12V)" data-desc="Fuente de poder dedicada para el estandarte móvil de Mecánica. Evita caídas de voltaje por resistencia de cables largos.">
+            <rect class="node-box node-power" x="40" y="420" rx="14" width="180" height="85"/>
+            <text class="svg-text-title" x="130" y="455" text-anchor="middle">BATERÍA MECÁNICA</text>
+            <text class="svg-text-sub" x="130" y="480" text-anchor="middle">Autónoma 12V / 5Ah</text>
+          </g>
+
+          <g class="comp-node" data-title="ESP32 Estandarte Mecánica" data-desc="Receptor ESP-NOW en modo esclavo. Recibe tramas broadcast a 1ms y renderiza secuencias locales mecánicas.">
+            <rect class="node-box node-main" x="270" y="400" rx="18" width="195" height="125"/>
+            <text class="svg-text-title" x="367" y="442" text-anchor="middle">ESP32 MECÁNICA</text>
+            <text class="svg-text-sub" x="367" y="468" text-anchor="middle">Receptor ESP-NOW</text>
+            <text class="svg-text-sub" x="367" y="490" text-anchor="middle">Efectos Mecánicos</text>
+          </g>
+
+          <g class="comp-node" data-title="Tira LED Mecánica" data-desc="24 LEDs Neopixel verticales integrados en el estandarte de Mecánica. Simulan engranajes luminosos y barras VU.">
+            <rect class="node-box node-led" x="775" y="400" rx="18" width="175" height="125"/>
+            <text class="svg-text-title" x="862" y="442" text-anchor="middle">LEDS MECÁNICA</text>
+            <text class="svg-text-sub" x="862" y="468" text-anchor="middle">24 LEDs WS2812B</text>
+            <text class="svg-text-sub" x="862" y="490" text-anchor="middle">Barra Vertical</text>
+          </g>
+
+          <!-- Bottom Row: Estandarte Eléctrica -->
+          <g class="comp-node" data-title="Batería Eléctrica (12V)" data-desc="Fuente de energía independiente de 12V para el módulo de Eléctrica. Garantiza estabilidad operativa total.">
+            <rect class="node-box node-power" x="40" y="550" rx="14" width="180" height="85"/>
+            <text class="svg-text-title" x="130" y="585" text-anchor="middle">BATERÍA ELÉCTRICA</text>
+            <text class="svg-text-sub" x="130" y="610" text-anchor="middle">Autónoma 12V / 5Ah</text>
+          </g>
+
+          <g class="comp-node" data-title="ESP32 Estandarte Eléctrica" data-desc="Receptor inalámbrico ESP-NOW para el módulo de Eléctrica. Genera destellos de alta tensión y arcos voltaicos.">
+            <rect class="node-box node-main" x="270" y="530" rx="18" width="195" height="115"/>
+            <text class="svg-text-title" x="367" y="570" text-anchor="middle">ESP32 ELÉCTRICA</text>
+            <text class="svg-text-sub" x="367" y="595" text-anchor="middle">Receptor ESP-NOW</text>
+            <text class="svg-text-sub" x="367" y="615" text-anchor="middle">Efectos Alta Tensión</text>
+          </g>
+
+          <g class="comp-node" data-title="Tira LED Eléctrica" data-desc="24 LEDs Neopixel verticales con recubrimiento difusor en el estandarte de Eléctrica.">
+            <rect class="node-box node-led" x="775" y="530" rx="18" width="175" height="115"/>
+            <text class="svg-text-title" x="862" y="570" text-anchor="middle">LEDS ELÉCTRICA</text>
+            <text class="svg-text-sub" x="862" y="595" text-anchor="middle">24 LEDs WS2812B</text>
+            <text class="svg-text-sub" x="862" y="615" text-anchor="middle">Barra Vertical</text>
+          </g>
+
+          <!-- Wires & Connections -->
+          <!-- Power Wires -->
+          <path class="wire-line wire-power pulse-wire" d="M220 112 H270"/>
+          <path class="wire-line wire-power pulse-wire" d="M450 112 H500"/>
+          <path class="wire-line wire-power pulse-wire" d="M220 462 H270"/>
+          <path class="wire-line wire-power pulse-wire" d="M220 592 H270"/>
+
+          <!-- Data Wires -->
+          <path class="wire-line wire-data pulse-wire" d="M720 112 H775"/>
+          <path class="wire-line wire-data pulse-wire" d="M950 112 H1000"/>
+          <path class="wire-line wire-data pulse-wire" d="M465 462 H775"/>
+          <path class="wire-line wire-data pulse-wire" d="M465 592 H775"/>
+
+          <!-- Sensor Input Wire -->
+          <path class="wire-line wire-logic pulse-wire" d="M610 235 V175"/>
+
+          <!-- ESP-NOW Dotted Wireless Links -->
+          <path class="wire-line wire-wifi pulse-wire" d="M530 175 C440 260 400 330 380 400"/>
+          <path class="wire-line wire-wifi pulse-wire" d="M670 175 C720 290 550 450 420 530"/>
+
+          <!-- Labels on wires -->
+          <text class="svg-text-sub" x="245" y="102">12V</text>
+          <text class="svg-text-sub" x="475" y="102">5V</text>
+          <text class="svg-text-sub" x="745" y="102">3.3V Data</text>
+          <text class="svg-text-sub" x="972" y="102">5V Data</text>
+          <text class="svg-text-sub" x="375" y="280">ESP-NOW Link</text>
+          <text class="svg-text-sub" x="650" y="360">ESP-NOW Link</text>
+        </svg>
+      </div>
+
+      <!-- Info Tooltip Box -->
+      <div id="circuit-tooltip" class="info-tooltip">
+        <h4 id="tooltip-title">Componente Seleccionado</h4>
+        <p id="tooltip-desc">Haz clic en los bloques del esquema para ver información detallada.</p>
+      </div>
     </div>
   </section>
 
-  <section id="enlaces" class="view card"><div class="links"><a href="https://wokwi.com/projects/new/esp32" target="_blank"><strong>Crear proyecto ESP32</strong>Wokwi en el navegador</a><a href="https://docs.wokwi.com/guides/esp32" target="_blank"><strong>Documentación ESP32</strong>Componentes y capacidades simuladas</a><a href="https://docs.wokwi.com/diagram-format" target="_blank"><strong>Formato diagram.json</strong>Componentes, posiciones y conexiones</a><a href="https://docs.platformio.org/en/stable/integration/ide/vscode.html" target="_blank"><strong>PlatformIO para VS Code</strong>Compilar y organizar el firmware</a><a href="https://docs.espressif.com/projects/arduino-esp32/en/latest/api/espnow.html" target="_blank"><strong>ESP-NOW oficial</strong>Comunicación entre los tres ESP32</a><a href="https://github.com/gaelrenzo/Estandarte-LED-Interactivo-conIA" target="_blank"><strong>Repositorio base</strong>Proyecto original del estandarte</a></div></section>
-  <p class="foot">Esta es una simulación conceptual local. Para ejecutar el firmware del ESP32 y ver componentes electrónicos reales, importe los archivos incluidos en la carpeta <b>wokwi_integrado</b>.</p>
+  <!-- TAB 3: RED WIRELESS ESP-NOW -->
+  <section id="tab-red" class="view-content">
+    <div class="glass-card">
+      <div class="network-grid">
+        <!-- Node 1: Mecánica -->
+        <div class="node-card">
+          <h3>ESP32 Mecánica</h3>
+          <p style="color: var(--mech-amber); font-weight: 700; font-size: 13px;">SUB-NODO RECEPTOR 1</p>
+          <div class="phone-mockup" style="border-color: var(--mech-amber)">
+            <div class="notch"></div>
+            <div class="phone-screen-bar active"></div>
+            <div class="phone-screen-bar"></div>
+            <div class="phone-screen-bar"></div>
+          </div>
+          <ul style="text-align: left; color: var(--text-muted); font-size: 13px; margin-top: 10px; line-height: 1.6;">
+            <li>• Batería independiente 12V</li><li>• Driver 74AHCT125 a LEDs</li><li>• Animación sincronizada local</li><li>• Respuesta ACK instantánea</li>
+          </ul>
+        </div>
+
+        <!-- Node 2: Master Central -->
+        <div class="node-card master-card">
+          <h3>ESP32 Central Maestro</h3>
+          <p style="color: var(--elec-cyan); font-weight: 700; font-size: 13px;">MASTER &amp; WEB SERVER</p>
+          <div class="phone-mockup" style="border-color: var(--elec-cyan); width: 130px; height: 210px;">
+            <div class="notch"></div>
+            <div class="phone-screen-bar active" style="height: 24px;"></div>
+            <div class="phone-screen-bar" style="height: 40px; background: rgba(0,240,255,0.15)"></div>
+            <div class="phone-screen-bar active"></div>
+          </div>
+          <div class="espnow-wave-line">
+            <span class="espnow-badge">ESP-NOW (2.4GHz)</span>
+          </div>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 20px;">
+            El teléfono inteligente se conecta vía Wi-Fi al AP <b>ESTANDARTE_IME</b> y envía los comandos por WebSockets.
+          </p>
+        </div>
+
+        <!-- Node 3: Eléctrica -->
+        <div class="node-card">
+          <h3>ESP32 Eléctrica</h3>
+          <p style="color: var(--elec-cyan); font-weight: 700; font-size: 13px;">SUB-NODO RECEPTOR 2</p>
+          <div class="phone-mockup" style="border-color: var(--elec-cyan)">
+            <div class="notch"></div>
+            <div class="phone-screen-bar active"></div>
+            <div class="phone-screen-bar"></div>
+            <div class="phone-screen-bar"></div>
+          </div>
+          <ul style="text-align: left; color: var(--text-muted); font-size: 13px; margin-top: 10px; line-height: 1.6;">
+            <li>• Batería independiente 12V</li><li>• Driver 74AHCT125 a LEDs</li><li>• Efectos de descarga eléctrica</li><li>• Modo seguro autónomo</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Real-time Packet Log Stream -->
+      <div class="terminal-card">
+        <div class="terminal-header">
+          <span>CONSOLE LOG: Monitor de Tráfico ESP-NOW &amp; WebSockets</span>
+          <button id="btn-clear-logs" style="background:none; border:none; color:var(--elec-cyan); font-family:var(--font-code); cursor:pointer; font-size:11px;">[Limpiar Console]</button>
+        </div>
+        <div id="terminal-logs" class="terminal-logs">
+          <div class="log-line"><span class="ts">[00:00.100]</span> <span class="info">[SYSTEM]</span> Inicializando Wi-Fi Access Point: ESTANDARTE_IME (IP: 192.168.4.1)...</div>
+          <div class="log-line"><span class="ts">[00:00.250]</span> <span class="ok">[ESP-NOW]</span> Protocolo iniciado con éxito en Canal 6.</div>
+          <div class="log-line"><span class="ts">[00:00.410]</span> <span class="ok">[PEER]</span> Nodo Mecánica vinculado (MAC: 24:0A:C4:00:01:A0) [PING: 0.3ms].</div>
+          <div class="log-line"><span class="ts">[00:00.430]</span> <span class="ok">[PEER]</span> Nodo Eléctrica vinculado (MAC: 24:0A:C4:00:01:B1) [PING: 0.4ms].</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 4: ENLACES & DOCUMENTACIÓN -->
+  <section id="tab-enlaces" class="view-content">
+    <div class="links-grid">
+      <a class="link-card" href="https://wokwi.com/projects/new/esp32" target="_blank" rel="noopener">
+        <div>
+          <h4>Wokwi ESP32 Simulator <span>↗</span></h4>
+          <p>Plataforma de simulación de circuitos electrónicos y firmware ESP32 directamente en el navegador.</p>
+        </div>
+      </a>
+
+      <a class="link-card" href="https://docs.espressif.com/projects/arduino-esp32/en/latest/api/espnow.html" target="_blank" rel="noopener">
+        <div>
+          <h4>Documentación Oficial ESP-NOW <span>↗</span></h4>
+          <p>Especificaciones del protocolo inalámbrico rápido desarrollado por Espressif para redes de microcontroladores.</p>
+        </div>
+      </a>
+
+      <a class="link-card" href="https://docs.platformio.org/en/stable/integration/ide/vscode.html" target="_blank" rel="noopener">
+        <div>
+          <h4>PlatformIO para VS Code <span>↗</span></h4>
+          <p>Entorno de desarrollo profesional para compilar, probar y flashear el código del estandarte.</p>
+        </div>
+      </a>
+
+      <a class="link-card" href="https://github.com/gaelrenzo/Estandarte-LED-Interactivo-conIA" target="_blank" rel="noopener">
+        <div>
+          <h4>Repositorio oficial GitHub <span>↗</span></h4>
+          <p>Código fuente completo, diagramas esquemáticos en KiCad y documentación técnica en LaTeX.</p>
+        </div>
+      </a>
+
+      <a class="link-card" href="https://docs.wokwi.com/diagram-format" target="_blank" rel="noopener">
+        <div>
+          <h4>Formato diagram.json <span>↗</span></h4>
+          <p>Guía de especificación para posicionar y conectar componentes en la simulación virtual Wokwi.</p>
+        </div>
+      </a>
+
+      <a class="link-card" href="https://fastled.io/docs/" target="_blank" rel="noopener">
+        <div>
+          <h4>Librería FastLED Docs <span>↗</span></h4>
+          <p>Referencia de funciones optimizadas para matemáticas de color y animaciones sobre tiras WS2812B.</p>
+        </div>
+      </a>
+    </div>
+
+    <p class="footer-note">
+      Estandarte LED Interactivo con IA — Escuela Profesional de Ingeniería Mecánica Eléctrica 2026.
+    </p>
+  </section>
 </main>
+
 <script>
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-$$('.tabs button').forEach(b=>b.addEventListener('click',()=>{$$('.tabs button').forEach(x=>x.classList.remove('active'));$$('.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#'+b.dataset.view).classList.add('active')}));
-function lights(parent,n,cls){return Array.from({length:n},()=>{const e=document.createElement('i');e.className=cls;parent.append(e);return e})}
-const left=lights($('#left'),24,'led'), right=lights($('#right'),24,'led'), matrix=lights($('#matrix'),144,'pixel');
-const bolt=new Set([7,18,30,41,53,64,76,87,99,110,122,133]);let running=true,forced=false,start=performance.now();
-function off(e){e.style.background='#26465e';e.style.opacity='.18';e.style.boxShadow='none'}
-function on(e,c,k=1){const b=+$('#bright').value/100*k;e.style.background=c;e.style.opacity=Math.max(.25,b);e.style.boxShadow=`0 0 ${5+18*b}px ${c}`}
-function clear(){[...left,...right,...matrix].forEach(off)}
-function frame(t){if(running){clear();const m=forced?'flow':$('#mode').value,sec=(t-start)/1000,snd=+$('#sound').value/100; if(m==='institutional'){left.forEach((e,i)=>on(e,i===Math.floor(sec*6)%24?'#fff':'#f28c00',.7));right.forEach((e,i)=>on(e,i===23-Math.floor(sec*6)%24?'#fff':'#00aeef',.7));matrix.forEach((e,i)=>on(e,bolt.has(i)?'#fff':'#7b4dff',bolt.has(i)?1:.22))} if(m==='flow'){const p=(sec%4.5)/4.5;if(p<.28){left.slice(0,Math.floor(p/.28*24)).forEach(e=>on(e,'#f28c00'))}else if(p<.58){left.forEach(e=>on(e,'#f28c00',.65));matrix.forEach((e,i)=>bolt.has(i)&&on(e,p>.45?'#fff':'#7b4dff'))}else if(p<.86){left.forEach(e=>on(e,'#f28c00',.45));matrix.forEach((e,i)=>bolt.has(i)&&on(e,'#fff'));right.slice(24-Math.floor((p-.58)/.28*24)).forEach(e=>on(e,'#00aeef'))}else{[...left,...right,...matrix].forEach(e=>on(e,'#fff',Math.sin((p-.86)/.14*Math.PI)))}} if(m==='audio'){const n=Math.round(snd*24);left.slice(0,n).forEach((e,i)=>on(e,i>19?'#ff5468':i>13?'#f6c445':'#f28c00'));right.slice(24-n).forEach(e=>on(e,'#00aeef'));const h=Math.max(1,Math.round(snd*12));for(let x=0;x<12;x++)for(let y=0;y<h;y++)on(matrix[(11-y)*12+x],x%2?'#00aeef':'#7b4dff');if(snd>.76)matrix.forEach((e,i)=>bolt.has(i)&&on(e,'#fff'))} if(m==='storm'){left.forEach(e=>Math.random()<.05&&on(e,'#f28c00'));right.forEach(e=>Math.random()<.06&&on(e,'#00aeef'));matrix.forEach((e,i)=>(bolt.has(i)&&Math.random()<.65)&&on(e,'#fff'))} if(m==='parade'){const colors=['#f28c00','#00aeef','#7b4dff','#f6c445','#23c483'];left.forEach((e,i)=>on(e,colors[(i+Math.floor(sec*6))%5]));right.forEach((e,i)=>on(e,colors[(i+2+Math.floor(sec*6))%5]));matrix.forEach((e,i)=>on(e,bolt.has(i)?'#fff':colors[(i+Math.floor(sec*4))%5],bolt.has(i)?1:.7))} $('#power').textContent=(1.2+snd*5.4*(+$('#bright').value/100)).toFixed(1)+' A'}requestAnimationFrame(frame)}
-$('#bright').addEventListener('input',e=>$('#brightVal').textContent=e.target.value+'%');$('#sound').addEventListener('input',e=>$('#soundVal').textContent=e.target.value+'%');$('#mode').addEventListener('change',()=>{start=performance.now();forced=false});$('#pause').addEventListener('click',e=>{running=!running;e.target.textContent=running?'Pausar':'Continuar'});$('#sequence').addEventListener('click',()=>{forced=true;start=performance.now();setTimeout(()=>forced=false,4550)});requestAnimationFrame(frame);
+  // DOM Selector Helper
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+
+  // Tab Navigation Logic
+  $$('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      $$('.tab-btn').forEach(b => b.classList.remove('active'));
+      $$('.view-content').forEach(v => v.classList.remove('active'));
+
+      btn.classList.add('active');
+      const tabId = btn.dataset.tab;
+      $(`#${tabId}`).classList.add('active');
+
+      logTerminal('INFO', `Navegación a vista: ${btn.textContent.trim()}`);
+    });
+  });
+
+  // LED Grid Generators
+  function createLeds(container, count, className) {
+    container.innerHTML = '';
+    return Array.from({ length: count }, () => {
+      const el = document.createElement('div');
+      el.className = className;
+      container.appendChild(el);
+      return el;
+    });
+  }
+
+  const leftLeds = createLeds($('#leds-left'), 24, 'led-bulb');
+  const rightLeds = createLeds($('#leds-right'), 24, 'led-bulb');
+  const matrixLeds = createLeds($('#leds-matrix'), 144, 'pixel-bulb');
+
+  // Zeus Bolt Pattern Indices on 12x12 Grid
+  const boltIndices = new Set([7, 18, 30, 41, 53, 64, 76, 87, 99, 110, 122, 133]);
+
+  // Simulation State Variables
+  let isRunning = true;
+  let forcedSequence = false;
+  let startTime = performance.now();
+  let frameCount = 0;
+  let lastFpsCheck = performance.now();
+
+  // Helper functions for LED color styling with bloom light effect
+  function turnOff(el) {
+    el.style.backgroundColor = el.classList.contains('pixel-bulb') ? '#111a2c' : '#152238';
+    el.style.opacity = '0.2';
+    el.style.boxShadow = 'none';
+  }
+
+  function turnOn(el, colorHex, intensity = 1.0) {
+    const userBright = +$('#brightness-slider').value / 100;
+    const finalAlpha = Math.max(0.3, userBright * intensity);
+
+    el.style.backgroundColor = colorHex;
+    el.style.opacity = finalAlpha.toString();
+    const blurRadius = Math.round(6 + 18 * finalAlpha);
+    el.style.boxShadow = `0 0 ${blurRadius}px ${colorHex}`;
+  }
+
+  function clearAllLeds() {
+    [...leftLeds, ...rightLeds, ...matrixLeds].forEach(turnOff);
+  }
+
+  // Animation Frame Render Loop
+  function renderFrame(now) {
+    frameCount++;
+    if (now - lastFpsCheck >= 1000) {
+      $('#metric-fps').textContent = `${frameCount} FPS`;
+      frameCount = 0;
+      lastFpsCheck = now;
+    }
+
+    if (isRunning) {
+      clearAllLeds();
+
+      const mode = forcedSequence ? 'flow' : $('#mode-select').value;
+      const sec = (now - startTime) / 1000;
+      const audioSim = +$('#audio-slider').value / 100;
+
+      // Update Audio Visualizer Spectrum Bar
+      const spectrumVal = Math.min(100, Math.max(10, Math.round(audioSim * 100 + Math.sin(sec * 12) * 20)));
+      $('#spectrum-fill').style.width = `${spectrumVal}%`;
+
+      // Animation Modes
+      if (mode === 'institutional') {
+        const step = Math.floor(sec * 6) % 24;
+        leftLeds.forEach((el, i) => turnOn(el, i === step ? '#ffffff' : '#ff7700', 0.85));
+        rightLeds.forEach((el, i) => turnOn(el, i === (23 - step) ? '#ffffff' : '#00f0ff', 0.85));
+        matrixLeds.forEach((el, i) => {
+          const isBolt = boltIndices.has(i);
+          turnOn(el, isBolt ? '#ffffff' : '#a855f7', isBolt ? 1.0 : 0.3);
+        });
+      }
+      else if (mode === 'flow') {
+        const progress = (sec % 4.5) / 4.5;
+        if (progress < 0.28) {
+          // Flow phase 1: Mechanical
+          const count = Math.floor((progress / 0.28) * 24);
+          leftLeds.slice(0, count).forEach(el => turnOn(el, '#ff7700'));
+        } else if (progress < 0.58) {
+          // Flow phase 2: Zeus Matrix
+          leftLeds.forEach(el => turnOn(el, '#ff7700', 0.7));
+          matrixLeds.forEach((el, i) => {
+            if (boltIndices.has(i)) turnOn(el, progress > 0.45 ? '#ffffff' : '#a855f7');
+          });
+        } else if (progress < 0.86) {
+          // Flow phase 3: Electrical
+          leftLeds.forEach(el => turnOn(el, '#ff7700', 0.4));
+          matrixLeds.forEach((el, i) => boltIndices.has(i) && turnOn(el, '#ffffff'));
+          const count = Math.floor(((progress - 0.58) / 0.28) * 24);
+          rightLeds.slice(24 - count).forEach(el => turnOn(el, '#00f0ff'));
+        } else {
+          // Pulse burst
+          const pulseInt = Math.sin(((progress - 0.86) / 0.14) * Math.PI);
+          [...leftLeds, ...rightLeds, ...matrixLeds].forEach(el => turnOn(el, '#ffffff', pulseInt));
+        }
+      }
+      else if (mode === 'audio') {
+        const activeCount = Math.round(audioSim * 24);
+        leftLeds.slice(0, activeCount).forEach((el, i) => {
+          const color = i > 19 ? '#ef4444' : (i > 13 ? '#ffb703' : '#ff7700');
+          turnOn(el, color);
+        });
+        rightLeds.slice(24 - activeCount).forEach(el => turnOn(el, '#00f0ff'));
+
+        const rows = Math.max(1, Math.round(audioSim * 12));
+        for (let col = 0; col < 12; col++) {
+          for (let r = 0; r < rows; r++) {
+            const idx = (11 - r) * 12 + col;
+            turnOn(matrixLeds[idx], col % 2 === 0 ? '#00f0ff' : '#a855f7');
+          }
+        }
+        if (audioSim > 0.75) {
+          matrixLeds.forEach((el, i) => boltIndices.has(i) && turnOn(el, '#ffffff'));
+        }
+      }
+      else if (mode === 'storm') {
+        leftLeds.forEach(el => Math.random() < 0.08 && turnOn(el, '#ff7700'));
+        rightLeds.forEach(el => Math.random() < 0.08 && turnOn(el, '#00f0ff'));
+        matrixLeds.forEach((el, i) => {
+          if (boltIndices.has(i) && Math.random() < 0.7) {
+            turnOn(el, '#ffffff');
+          }
+        });
+      }
+      else if (mode === 'parade') {
+        const rainbowColors = ['#ff7700', '#00f0ff', '#a855f7', '#ffb703', '#10b981'];
+        const shift = Math.floor(sec * 7);
+        leftLeds.forEach((el, i) => turnOn(el, rainbowColors[(i + shift) % 5]));
+        rightLeds.forEach((el, i) => turnOn(el, rainbowColors[(i + shift + 2) % 5]));
+        matrixLeds.forEach((el, i) => turnOn(el, boltIndices.has(i) ? '#ffffff' : rainbowColors[(i + shift) % 5], 0.8));
+      }
+      else if (mode === 'pulse_ai') {
+        const pulse = Math.abs(Math.sin(sec * 3));
+        leftLeds.forEach(el => turnOn(el, '#a855f7', pulse));
+        rightLeds.forEach(el => turnOn(el, '#00f0ff', pulse));
+        matrixLeds.forEach((el, i) => turnOn(el, boltIndices.has(i) ? '#00f0ff' : '#a855f7', pulse));
+      }
+
+      // Update Live Telemetry Metrics
+      const bFactor = +$('#brightness-slider').value / 100;
+      const currentAmps = (1.2 + audioSim * 5.2 * bFactor).toFixed(1);
+      const watts = (currentAmps * 5.0).toFixed(1);
+      $('#metric-power').textContent = `${currentAmps} A (${watts} W)`;
+    }
+
+    requestAnimationFrame(renderFrame);
+  }
+
+  // Controls Event Listeners
+  $('#brightness-slider').addEventListener('input', e => {
+    const val = `${e.target.value}%`;
+    $('#bright-val').textContent = val;
+    $('#metric-bright').textContent = val;
+  });
+
+  $('#audio-slider').addEventListener('input', e => {
+    $('#audio-val').textContent = `${e.target.value}%`;
+  });
+
+  $('#mode-select').addEventListener('change', e => {
+    startTime = performance.now();
+    forcedSequence = false;
+    logTerminal('INFO', `Cambio de modo a: ${e.target.options[e.target.selectedIndex].text}`);
+  });
+
+  $('#btn-pause').addEventListener('click', e => {
+    isRunning = !isRunning;
+    e.target.textContent = isRunning ? '⏸ Pausar' : '▶ Reanudar';
+    logTerminal('WARN', isRunning ? 'Simulación reanudada' : 'Simulación pausada');
+  });
+
+  $('#btn-sequence').addEventListener('click', () => {
+    forcedSequence = true;
+    startTime = performance.now();
+    logTerminal('INFO', 'Secuencia forzada ejecutando (Duración: 4.5s)...');
+    setTimeout(() => { forcedSequence = false; }, 4550);
+  });
+
+  // Circuit Interactive Nodes Tooltip
+  $$('.comp-node').forEach(node => {
+    node.addEventListener('click', () => {
+      const title = node.dataset.title;
+      const desc = node.dataset.desc;
+      $('#tooltip-title').textContent = title;
+      $('#tooltip-desc').textContent = desc;
+      $('#circuit-tooltip').style.display = 'block';
+    });
+  });
+
+  // SVG Filter Tags
+  $$('.filter-tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      $$('.filter-tag').forEach(t => t.classList.remove('active'));
+      tag.classList.add('active');
+
+      const filter = tag.dataset.filter;
+      $$('.wire-line').forEach(wire => {
+        if (filter === 'all') {
+          wire.style.opacity = '1';
+        } else if (filter === 'power') {
+          wire.style.opacity = wire.classList.contains('wire-power') ? '1' : '0.15';
+        } else if (filter === 'data') {
+          wire.style.opacity = (wire.classList.contains('wire-data') || wire.classList.contains('wire-logic')) ? '1' : '0.15';
+        } else if (filter === 'wifi') {
+          wire.style.opacity = wire.classList.contains('wire-wifi') ? '1' : '0.15';
+        }
+      });
+    });
+  });
+
+  // Terminal Console Logger
+  function logTerminal(type, message) {
+    const logsContainer = $('#terminal-logs');
+    if (!logsContainer) return;
+
+    const now = new Date();
+    const ts = `[${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}.${String(Math.floor(now.getMilliseconds()/100)).padStart(1, '0')}]`;
+
+    const line = document.createElement('div');
+    line.className = 'log-line';
+
+    let typeSpan = `<span class="info">[INFO]</span>`;
+    if (type === 'OK') typeSpan = `<span class="ok">[OK]</span>`;
+    if (type === 'WARN') typeSpan = `<span class="warn">[WARN]</span>`;
+
+    line.innerHTML = `<span class="ts">${ts}</span> ${typeSpan} ${message}`;
+    logsContainer.appendChild(line);
+    logsContainer.scrollTop = logsContainer.scrollHeight;
+  }
+
+  $('#btn-clear-logs').addEventListener('click', () => {
+    $('#terminal-logs').innerHTML = '';
+  });
+
+  // Start Animation Loop
+  requestAnimationFrame(renderFrame);
+
+  // Periodic simulated packet messages
+  setInterval(() => {
+    if (isRunning && Math.random() < 0.4) {
+      const modeName = $('#mode-select').value;
+      const bright = $('#brightness-slider').value;
+      logTerminal('OK', `TX ESP-NOW -> BROADCAST { mode: "${modeName}", bright: ${bright} } [ACK 2/2]`);
+    }
+  }, 4000);
 </script>
-</body></html>
+
+</body>
+</html>

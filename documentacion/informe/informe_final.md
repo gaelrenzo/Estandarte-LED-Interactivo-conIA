@@ -2,7 +2,16 @@
 
 **Proyecto:** Estandarte LED Interactivo con IA
 **Duración:** 12 días
-**Fecha:** [completar]
+**Fecha:** 24 de agosto de 2026
+**Autores:**
+- Dilmar H. Siguayro Coila
+- Aquiles T. Ramos Yapo
+- Renzo G. Mamani Galindo
+- Martin Calla Quispe
+- Abel Y. Rivera Quispe
+
+Escuela Profesional de Ingeniería Mecánica Eléctrica, Universidad Nacional del Altiplano, Perú.
+**Responsable de asignatura:** Chura Acero Julio Fredy
 
 ---
 
