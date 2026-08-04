@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# Entornos y cachés de IDE
+.vscode/
+.idea/
+
+# Build de PlatformIO / Arduino
+.pio/
+.pioenvs/
+.pioide/
+
+# Binarios y firmware compilado
+*.elf
+*.bin
+*.heap
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db

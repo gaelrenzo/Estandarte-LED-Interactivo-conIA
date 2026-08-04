@@ -1,0 +1,5 @@
+# Dependencias del módulo IA (software/ia)
+numpy>=1.24
+sounddevice>=0.4.6
+pyserial>=3.5
+matplotlib>=3.7   # opcional: visualización de señal/espectro
