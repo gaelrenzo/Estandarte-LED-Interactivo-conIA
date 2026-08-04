@@ -9,6 +9,8 @@ circuito/
 ├── README.md          # Este archivo
 ├── diagramas/         # Esquemáticos y diagramas de conexión
 │   └── esquematico.svg    # Diagrama de conexión principal (vista en GitHub)
+├── guias/
+│   └── montaje_pruebas_dias1-3.md  # Guía de ensamble y pruebas del circuito
 └── imagenes/          # Fotos del montaje real y pruebas
     └── (pendiente)    # Fotos de protoboard y soporte
 ```
@@ -17,6 +19,11 @@ circuito/
 
 Ver el diagrama de conexión completo en
 [`diagramas/esquematico.svg`](diagramas/esquematico.svg).
+
+## Guía de montaje y pruebas
+
+Sigue [`guias/montaje_pruebas_dias1-3.md`](guias/montaje_pruebas_dias1-3.md)
+para ensamblar el circuito en protoboard y validar las etapas de los días 1–3.
 
 ## Partes del circuito
 
