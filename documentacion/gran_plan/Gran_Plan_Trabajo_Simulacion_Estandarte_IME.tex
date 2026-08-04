@@ -651,21 +651,9 @@ Batería sellada 12 V & Robusta y simple & Mayor peso; poco conveniente para mó
 \end{itemize}
 
 \subsection{Materiales candidatos}
-\begin{table}[H]
-\centering
-\begin{tabularx}{\textwidth}{@{}P{3.0cm}Y Y@{}}
-\toprule
-\textbf{Material} & \textbf{Aplicación} & \textbf{Observación}\\
-\midrule
-Tubo de aluminio & Bastidor y soporte & Ligero y resistente\\
-PVC espumado & Panel frontal y letras & Fácil de cortar y ligero\\
-Policarbonato/acrílico & Difusores y ventanas & Probar resistencia y peso\\
-Tela impresa & Fondo gráfico & Reduce peso y permite reemplazo\\
-Impresión 3D & Soportes, cajas y guías & Útil para piezas pequeñas\\
-Canaleta plástica & Protección de cableado & Facilita mantenimiento\\
-\bottomrule
-\end{tabularx}
-\end{table}
+La selección de materiales del bastidor y acabados se hará de forma general,
+según disponibilidad local y presupuesto; se detallará en la etapa de
+construcción del proyecto.
 
 % ============================================================
 \section{Plan de trabajo integral}
@@ -760,60 +748,10 @@ Operación en parada & A/R & C & C & C\\
 \textit{R = Responsable; A = Aprueba; C = Consultado; I = Informado.}
 
 % ============================================================
-\section{Lista preliminar de materiales}
-\begin{longtable}{@{}P{0.8cm}P{4.2cm}P{1.4cm}P{4.2cm}P{3.7cm}@{}}
-\caption{BOM preliminar para planificación}\\
-\toprule
-\textbf{N.°} & \textbf{Componente} & \textbf{Cant.} & \textbf{Especificación inicial} & \textbf{Observación}\\
-\midrule
-\endfirsthead
-\toprule
-\textbf{N.°} & \textbf{Componente} & \textbf{Cant.} & \textbf{Especificación inicial} & \textbf{Observación}\\
-\midrule
-\endhead
-1 & ESP32 DevKit & 4 & Tres en servicio y uno de reserva & Mismo modelo para todos\\
-2 & Tira WS2812B & Por definir & 5 V, densidad según diseño & Medir longitud real\\
-3 & Matriz/tiras para Zeus & 1 conjunto & WS2812 o segmentos personalizados & Panel central\\
-4 & 74AHCT125 & 3--4 & Adaptación lógica 3,3 V a 5 V & Uno por módulo\\
-5 & Resistencia 330--470 \si{\ohm} & 3--6 & En cada línea de datos & Cerca del driver\\
-6 & Condensador 1000 \si{\micro\farad} & 3--6 & Baja ESR, tensión adecuada & Cerca de tiras\\
-7 & Convertidor DC-DC & 3 & Capacidad según corriente medida & Con ventilación\\
-8 & Batería & 3 & Capacidad según autonomía & Una por módulo\\
-9 & Fusible y portafusible & 3--6 & Dimensionado por módulo & Repuesto disponible\\
-10 & Interruptor general & 3 & Corriente suficiente & Accesible\\
-11 & MAX4466 o micrófono digital & 1 & Sensor del módulo central & Evaluar ruido\\
-12 & OLED SSD1306 & 1 & I2C 0x3C & Diagnóstico local\\
-13 & Pulsadores & 4--6 & Modo, secuencia, emergencia & Panel central\\
-14 & Conectores XT30/XT60 o equivalentes & Varios & Polarizados y seguros & Potencia\\
-15 & Conectores de señal & Varios & Bloqueables & Mantenimiento\\
-16 & Cable de potencia & Según diseño & Sección según corriente & Rojo/negro\\
-17 & Cable de señal & Según diseño & Flexible y protegido & Datos/sensores\\
-18 & Caja electrónica & 3 & Ventilada y desmontable & Una por módulo\\
-19 & Difusor & Según diseño & Acrílico, policarbonato o PVC & Uniformidad visual\\
-20 & Bastidor & 3 & Aluminio/PVC estructural & Peso bajo\\
-\bottomrule
-\end{longtable}
-
-\subsection{Formato de presupuesto}
-\begin{table}[H]
-\centering
-\caption{Cuadro para completar cotizaciones}
-\begin{tabularx}{\textwidth}{@{}P{4.2cm}C R R R@{}}
-\toprule
-\textbf{Partida} & \textbf{Cant.} & \textbf{P. unitario} & \textbf{Subtotal} & \textbf{Proveedor}\\
-\midrule
-Controladores y sensores & & & & \\
-LED y difusores & & & & \\
-Baterías y convertidores & & & & \\
-Protección y conectores & & & & \\
-Estructura mecánica & & & & \\
-Impresión, acabado y rotulado & & & & \\
-Repuestos y contingencia & & & & \\
-\midrule
-\multicolumn{3}{r}{\textbf{TOTAL}} & & \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\section{Lista general de materiales}
+La lista específica de componentes y el presupuesto del proyecto se
+consolidarán al avanzar el diseño. Este apartado se mantiene de forma general y
+se ampliará y detallará en la siguiente iteración del plan.
 
 % ============================================================
 \section{Plan de pruebas y criterios de aceptación}
