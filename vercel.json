@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/web_control/index.html"
+    },
+    {
+      "source": "/simulador",
+      "destination": "/simulacion_visual/Simulador_Visual_Estandarte_IME.html"
+    }
+  ]
+}
