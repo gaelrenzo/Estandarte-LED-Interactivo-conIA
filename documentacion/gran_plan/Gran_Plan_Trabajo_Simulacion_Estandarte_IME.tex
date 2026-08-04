@@ -1,0 +1,1009 @@
+\documentclass[11pt,a4paper]{article}
+
+% ============================================================
+% GRAN PLAN DE TRABAJO Y SIMULACION - ESTANDARTE IME
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage[sfdefault]{sourcesanspro}
+\usepackage[scaled=0.90]{sourcecodepro}
+\usepackage{microtype}
+\usepackage{geometry}
+\geometry{top=2cm,bottom=2cm,left=1.9cm,right=1.9cm}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\graphicspath{{recursos/}{diagramas/}}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\sisetup{output-decimal-marker={,}}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc,fit,backgrounds,decorations.pathmorphing,matrix}
+\usepackage[most]{tcolorbox}
+\usepackage{pgfgantt}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{lastpage}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{pdflscape}
+\usepackage{multicol}
+\usepackage{etoolbox}
+
+% ------------------------------------------------------------
+% Paleta visual
+% ------------------------------------------------------------
+\definecolor{Navy}{HTML}{061A2B}
+\definecolor{DeepBlue}{HTML}{0A4F78}
+\definecolor{Electric}{HTML}{00AEEF}
+\definecolor{Cyan}{HTML}{00D5D8}
+\definecolor{Mechanical}{HTML}{F28C00}
+\definecolor{Gold}{HTML}{F6C445}
+\definecolor{Violet}{HTML}{7B4DFF}
+\definecolor{Soft}{HTML}{EDF5FA}
+\definecolor{Ink}{HTML}{153047}
+\definecolor{Gray}{HTML}{60788C}
+\definecolor{Success}{HTML}{1E8E5A}
+\definecolor{Warning}{HTML}{D97706}
+\definecolor{Danger}{HTML}{C83E4D}
+\definecolor{LightGray}{HTML}{F6F8FA}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=DeepBlue,
+  urlcolor=Electric,
+  citecolor=Violet,
+  pdftitle={Gran Plan de Trabajo y Simulacion del Estandarte LED IME},
+  pdfauthor={Equipo de Ingenieria Mecanica Electrica},
+  pdfsubject={Diseno, simulacion, programacion, energia, montaje y pruebas},
+  pdfkeywords={ESP32, Wokwi, WS2812, ESP-NOW, estandarte, IME}
+}
+\urlstyle{same}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlist[itemize]{leftmargin=1.15cm,itemsep=2pt,topsep=3pt}
+\setlist[enumerate]{leftmargin=1.15cm,itemsep=3pt,topsep=3pt}
+\renewcommand{\arraystretch}{1.18}
+
+\titleformat{\section}{\Large\bfseries\color{Navy}}{\thesection}{0.55em}{}
+\titleformat{\subsection}{\large\bfseries\color{DeepBlue}}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{Ink}}{\thesubsubsection}{0.5em}{}
+
+\pagestyle{fancy}
+\setlength{\headheight}{14pt}
+\fancyhf{}
+\fancyhead[L]{\textcolor{DeepBlue}{Estandarte LED Interactivo IME}}
+\fancyhead[R]{\textcolor{Gray}{Gran plan y simulación}}
+\fancyfoot[L]{\textcolor{Gray}{Parada Universitaria 2026}}
+\fancyfoot[R]{\textcolor{Gray}{Página \thepage\ de \pageref{LastPage}}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.2pt}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\newtcolorbox{resumenbox}[1][]{enhanced,breakable,colback=Soft,colframe=DeepBlue,boxrule=0.8pt,arc=3mm,left=4mm,right=4mm,top=3mm,bottom=3mm,borderline west={3pt}{0pt}{Electric},title=#1,fonttitle=\bfseries\color{Navy},coltitle=Navy}
+\newtcolorbox{alertbox}[1][]{enhanced,breakable,colback=yellow!7,colframe=Warning,boxrule=0.7pt,arc=2mm,left=4mm,right=4mm,top=3mm,bottom=3mm,title=#1,fonttitle=\bfseries\color{Warning}}
+\newtcolorbox{successbox}[1][]{enhanced,breakable,colback=green!5,colframe=Success,boxrule=0.7pt,arc=2mm,left=4mm,right=4mm,top=3mm,bottom=3mm,title=#1,fonttitle=\bfseries\color{Success}}
+\newtcolorbox{dangerbox}[1][]{enhanced,breakable,colback=red!4,colframe=Danger,boxrule=0.7pt,arc=2mm,left=4mm,right=4mm,top=3mm,bottom=3mm,title=#1,fonttitle=\bfseries\color{Danger}}
+\newtcolorbox{linkbox}[1][]{enhanced,colback=Navy,colframe=Electric,boxrule=0.8pt,arc=3mm,left=4mm,right=4mm,top=3mm,bottom=3mm,title=#1,fonttitle=\bfseries\color{white},coltitle=white,coltext=white}
+
+\lstdefinestyle{code}{
+  basicstyle=\ttfamily\footnotesize,
+  backgroundcolor=\color{Navy!97},
+  keywordstyle=\color{Cyan},
+  commentstyle=\color{Gold},
+  stringstyle=\color{Mechanical!85!white},
+  numbers=left,numberstyle=\tiny\color{Gray},
+  frame=single,rulecolor=\color{DeepBlue},
+  breaklines=true,tabsize=2,showstringspaces=false,
+  xleftmargin=1em,framexleftmargin=0.6em,
+  columns=fullflexible,
+  keepspaces=true
+}
+\lstdefinelanguage{json}{morestring=[b]",morecomment=[l]{//},morekeywords={true,false,null},sensitive=true}
+
+\newcommand{\estado}[2]{\textbf{#1:} \textcolor{#2}{\textbf{●}}}
+\newcommand{\enlace}[2]{\href{#1}{\textcolor{Electric}{\textbf{#2}}}}
+
+\begin{document}
+\hypersetup{pageanchor=false}
+
+% ============================================================
+% PORTADA
+% ============================================================
+\begin{titlepage}
+\pagecolor{Navy}\color{white}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[Electric!10] (current page.north west) rectangle ([yshift=-6.8cm]current page.north east);
+  \draw[Electric,line width=1.5pt] ([xshift=1.2cm,yshift=-1.2cm]current page.north west)--([xshift=-1.2cm,yshift=-1.2cm]current page.north east);
+  \draw[Mechanical,line width=5pt] ([xshift=1.2cm,yshift=1.15cm]current page.south west)--([xshift=7.1cm,yshift=1.15cm]current page.south west);
+  \draw[Electric,line width=5pt] ([xshift=-7.1cm,yshift=1.15cm]current page.south east)--([xshift=-1.2cm,yshift=1.15cm]current page.south east);
+\end{tikzpicture}
+\vspace*{0.9cm}
+{\large PARADA UNIVERSITARIA 2026\par}
+\vspace{1.45cm}
+{\Huge\bfseries GRAN PLAN DE TRABAJO\par}
+\vspace{0.12cm}
+{\LARGE\bfseries DISEÑO, SIMULACIÓN Y CONSTRUCCIÓN\par}
+\vspace{0.18cm}
+{\LARGE\bfseries ESTANDARTE LED INTERACTIVO\par}
+\vspace{0.18cm}
+{\Large Escuela Profesional de Ingeniería Mecánica Eléctrica\par}
+\vspace{0.9cm}
+\begin{center}
+\begin{tikzpicture}[scale=0.88]
+  \tikzset{panel/.style={rounded corners=4pt,draw=white!55,fill=white!5,line width=1pt}}
+  \draw[panel] (0,0) rectangle (2.2,6.1);
+  \draw[panel] (2.7,-0.5) rectangle (9.2,6.6);
+  \draw[panel] (9.7,0) rectangle (11.9,6.1);
+  \node[rotate=90,font=\bfseries\Large,text=Mechanical] at (1.1,3.05) {MECÁNICA};
+  \node[rotate=90,font=\bfseries\Large,text=Electric] at (10.8,3.05) {ELÉCTRICA};
+  \node[align=center,font=\bfseries\large] at (5.95,5.75) {ESCUELA PROFESIONAL DE\\INGENIERÍA MECÁNICA ELÉCTRICA};
+  \draw[Electric,line width=5pt,rounded corners=2pt] (6.8,4.8)--(5.6,3.4)--(6.3,3.4)--(5.1,1.3)--(7.2,3.9)--(6.4,3.9)--cycle;
+  \foreach \y in {0.45,0.9,...,5.65}{\fill[Mechanical] (0.35,\y) circle (2.2pt);\fill[Electric] (11.55,\y) circle (2.2pt);}
+  \foreach \x in {3.2,3.65,...,8.7}{\fill[white!75] (\x,0.05) circle (1.8pt);}
+\end{tikzpicture}
+\end{center}
+\vfill
+\begin{tabularx}{\textwidth}{@{}Y Y@{}}
+\textbf{Documento:} Plan integral y paquete de simulación & \textbf{Versión:} 2.0\\
+\textbf{Equipo:} [Completar integrantes] & \textbf{Fecha:} 4 de agosto de 2026\\
+\textbf{Universidad:} [Completar] & \textbf{Lugar:} Puno, Perú\\
+\textbf{Responsable técnico:} [Completar] & \textbf{Estado:} Simulación inicial preparada\\
+\end{tabularx}
+\vspace{0.35cm}
+\end{titlepage}
+\nopagecolor\color{Ink}
+\hypersetup{pageanchor=true}
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+\listoffigures
+\listoftables
+\clearpage
+\pagenumbering{arabic}
+
+% ============================================================
+\section{Resumen ejecutivo}
+\begin{resumenbox}[Finalidad del proyecto]
+El proyecto busca desarrollar tres estandartes móviles e independientes para representar a la Escuela Profesional de Ingeniería Mecánica Eléctrica durante la parada universitaria. El módulo izquierdo llevará la palabra \textbf{MECÁNICA}; el módulo central, de mayor ancho, incluirá el nombre institucional y un símbolo de Zeus; el módulo derecho llevará la palabra \textbf{ELÉCTRICA}. La iluminación se realizará con LED direccionables WS2812, controladores ESP32, efectos dinámicos, sincronización inalámbrica y una interfaz de control desde teléfono móvil.
+\end{resumenbox}
+
+El trabajo se organiza en dos niveles. El primero es una \textbf{simulación integrada}, en la que un ESP32 virtual controla tres zonas LED, una pantalla OLED, botones y entradas analógicas. El segundo es la \textbf{arquitectura física final}, donde cada estandarte tendrá su propio ESP32 y batería, mientras el módulo central actuará como coordinador mediante ESP-NOW y alojará una página web local mediante Wi-Fi.
+
+\begin{successbox}[Entregables incluidos en este paquete]
+\begin{itemize}
+  \item Documento editable en \LaTeX{} y PDF compilado.
+  \item Simulador visual interactivo en HTML con vistas de estandarte, circuito y red inalámbrica.
+  \item Proyecto integrado listo para importar en Wokwi.
+  \item Proyecto local para Visual Studio Code + PlatformIO + Wokwi.
+  \item Código base para tres ESP32: central, Mecánica y Eléctrica.
+  \item Diagramas, enlaces, códigos QR, pinout, cronograma, pruebas, riesgos y presupuesto preliminar.
+\end{itemize}
+\end{successbox}
+
+\begin{alertbox}[Alcance real de Wokwi]
+Wokwi permite simular el ESP32, GPIO, ADC, I2C, Wi-Fi y dispositivos WS2812. Sin embargo, no admite varios microcontroladores conectados dentro de un único proyecto. Por ello, la simulación inicial integra las tres zonas en un solo ESP32, mientras la comunicación ESP-NOW debe verificarse posteriormente con tres placas físicas o con varias instancias separadas del simulador. \cite{wokwi-faq,wokwi-esp32}
+\end{alertbox}
+
+% ============================================================
+\section{Antecedentes y necesidad}
+El repositorio original propone un estandarte reactivo al sonido mediante ESP32, micrófono MAX4466, tiras WS2812 y scripts de análisis de audio. Para la parada universitaria se requiere ampliar el alcance y adaptar la propuesta a tres estructuras móviles que no estarán unidas por cables. Esto obliga a incorporar:
+\begin{itemize}
+  \item controladores y baterías independientes;
+  \item sincronización inalámbrica;
+  \item control desde celular sin depender de internet;
+  \item protección eléctrica y limitación de corriente;
+  \item diseño mecánico ligero, desmontable y resistente a vibraciones;
+  \item simulación previa del firmware, conexiones y efectos visuales.
+\end{itemize}
+
+\subsection{Configuración visual prevista}
+\begin{table}[H]
+\centering
+\caption{Composición funcional de los tres estandartes}
+\begin{tabularx}{\textwidth}{@{}P{3.0cm}P{3.0cm}Y P{3.4cm}@{}}
+\toprule
+\textbf{Módulo} & \textbf{Orientación} & \textbf{Contenido visual} & \textbf{Efectos principales}\\
+\midrule
+Mecánica & Vertical & Palabra MECÁNICA, engranajes o elementos de máquinas & Barridos, rotación simulada, pulso naranja/dorado\\
+Centro & Ancho y principal & Nombre de la escuela, Zeus, rayo y emblema institucional & Descarga central, secuencia coordinada, página web y sonido\\
+Eléctrica & Vertical & Palabra ELÉCTRICA, rayos, bobinas o circuitos & Chispas, descarga azul/cian, flujo ascendente\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ============================================================
+\section{Objetivos}
+\subsection{Objetivo general}
+Diseñar, simular y validar un sistema modular de iluminación dinámica para tres estandartes móviles de Ingeniería Mecánica Eléctrica, con control inalámbrico, operación autónoma, protección eléctrica y capacidad de interacción desde un teléfono móvil.
+
+\subsection{Objetivos específicos}
+\begin{enumerate}
+  \item Representar gráficamente el ESP32, drivers, entradas, tiras LED, matriz central y cableado en Wokwi.
+  \item Programar efectos diferenciados para Mecánica, Zeus y Eléctrica.
+  \item Crear una simulación visual local que permita explicar el funcionamiento sin depender del hardware.
+  \item Diseñar la red de tres ESP32 mediante ESP-NOW y el control web local mediante Wi-Fi.
+  \item Definir el tendido de potencia, señales, protecciones y conectores por módulo.
+  \item Establecer cálculos preliminares de consumo y autonomía.
+  \item Organizar las actividades en un cronograma con responsables, entregables y criterios de aceptación.
+  \item Preparar una lista de materiales y una matriz de pruebas antes de construir el prototipo.
+\end{enumerate}
+
+% ============================================================
+\section{Enlaces rápidos y acceso a la simulación}
+\begin{linkbox}[Acceso inmediato]
+\begin{itemize}
+  \item \enlace{https://wokwi.com/projects/new/esp32}{Abrir un proyecto nuevo de ESP32 en Wokwi}.
+  \item \enlace{https://github.com/gaelrenzo/Estandarte-LED-Interactivo-conIA}{Abrir el repositorio base en GitHub}.
+  \item \enlace{https://docs.platformio.org/en/stable/integration/ide/vscode.html}{Instalar y usar PlatformIO IDE para VS Code}.
+  \item \enlace{https://docs.espressif.com/projects/arduino-esp32/en/latest/api/espnow.html}{Consultar la API oficial ESP-NOW}.
+  \item \href{run:simulacion_visual/Simulador_Visual_Estandarte_IME.html}{\textcolor{Gold}{\textbf{Abrir el simulador visual local incluido en el ZIP}}}.
+\end{itemize}
+\end{linkbox}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.23\textwidth}\centering\includegraphics[width=.8\linewidth]{qr_wokwi.png}\caption{Wokwi ESP32}\end{subfigure}\hfill
+\begin{subfigure}{0.23\textwidth}\centering\includegraphics[width=.8\linewidth]{qr_github.png}\caption{Repositorio base}\end{subfigure}\hfill
+\begin{subfigure}{0.23\textwidth}\centering\includegraphics[width=.8\linewidth]{qr_platformio.png}\caption{PlatformIO}\end{subfigure}\hfill
+\begin{subfigure}{0.23\textwidth}\centering\includegraphics[width=.8\linewidth]{qr_espnow.png}\caption{ESP-NOW}\end{subfigure}
+\caption{Códigos QR para acceder a las herramientas y documentación principal.}
+\end{figure}
+
+\begin{alertbox}[Sobre el enlace directo del proyecto]
+Los archivos \texttt{sketch.ino}, \texttt{diagram.json} y \texttt{libraries.txt} están listos para importar. No se incluye un enlace público único de Wokwi porque la publicación de un proyecto requiere guardarlo desde una cuenta de Wokwi. Una vez importado y guardado, Wokwi generará un enlace compartible.
+\end{alertbox}
+
+% ============================================================
+\section{Software recomendado}
+\subsection{Herramienta principal: Wokwi}
+Wokwi es la herramienta prioritaria para comenzar porque ejecuta firmware real del ESP32 y permite observar gráficamente tiras y matrices WS2812, botones, potenciómetros, OLED, conexiones y monitor serial. También ofrece simulación Wi-Fi y compatibilidad con proyectos Arduino, ESP-IDF y firmware compilado. \cite{wokwi-home,wokwi-esp32,wokwi-strip,wokwi-matrix}
+
+\begin{table}[H]
+\centering
+\caption{Capacidades de Wokwi aplicadas al proyecto}
+\begin{tabularx}{\textwidth}{@{}P{3.5cm}Y P{3.2cm}@{}}
+\toprule
+\textbf{Capacidad} & \textbf{Aplicación} & \textbf{Estado}\\
+\midrule
+ESP32 DevKit V1 & Ejecución del firmware, GPIO, ADC, I2C y monitor serial & Simulado\\
+WS2812 Strip & Representación de Mecánica y Eléctrica & Simulado\\
+WS2812 Matrix & Representación de Zeus y panel central & Simulado\\
+Potenciómetros & Sonido y brillo simulados & Simulado\\
+Botones & Selección de modo, paleta y secuencia & Simulado\\
+OLED SSD1306 & Estado del sistema & Simulado\\
+Wi-Fi & Servidor web y pruebas de red con gateway & Simulable\\
+Bluetooth & Control directo por Bluetooth & No simulado\\
+Varios ESP32 en un proyecto & Red física completa & No soportado\\
+Batería y caída de tensión & Autonomía y comportamiento eléctrico real & Cálculo/prueba física\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Visual Studio Code + PlatformIO}
+PlatformIO ofrece un entorno de trabajo ordenado para compilar, instalar bibliotecas, abrir el monitor serial, manejar varios firmwares y mantener el proyecto bajo control de versiones. La extensión Wokwi para VS Code utiliza los archivos \texttt{wokwi.toml} y \texttt{diagram.json} para ejecutar la simulación local. \cite{platformio-vscode,wokwi-vscode,wokwi-config}
+
+\subsection{Herramientas complementarias}
+\begin{longtable}{@{}P{3.4cm}P{5.3cm}P{5.6cm}@{}}
+\caption{Software complementario y función dentro del proyecto}\\
+\toprule
+\textbf{Software} & \textbf{Función} & \textbf{Uso recomendado}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Software} & \textbf{Función} & \textbf{Uso recomendado}\\
+\midrule
+\endhead
+Wokwi Web & Simulación inmediata en navegador & Primera validación de animaciones y cableado lógico\\
+VS Code + PlatformIO & Desarrollo local, compilación y gestión de bibliotecas & Firmware integrado y firmware de tres nodos\\
+Wokwi para VS Code & Simulación del binario compilado e IoT Gateway & Página web local y flujo de trabajo avanzado\\
+KiCad & Esquemático eléctrico, conectores y PCB distribuidora & Ingeniería de detalle\\
+EasyEDA & Alternativa web para esquema y PCB & Cuando se requiera fabricación rápida\\
+Proteus & Esquema tradicional y pruebas de circuitos básicos & Complemento académico; no es la mejor opción para cientos de WS2812\\
+SketchUp & Volumen, dimensiones y ubicación de componentes & Diseño mecánico preliminar\\
+SolidWorks & Ensamble, soporte, peso y fabricación & Diseño mecánico definitivo\\
+Blender & Render, video y presentación visual & Demostración de la apariencia final\\
+Git/GitHub & Versionado y colaboración & Control de cambios y respaldo del proyecto\\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Instalación paso a paso del entorno de simulación}
+\subsection{Ruta rápida: Wokwi en navegador}
+\begin{enumerate}
+  \item Abrir \url{https://wokwi.com/projects/new/esp32}.
+  \item Crear o iniciar sesión para guardar el proyecto y obtener un enlace compartible.
+  \item Reemplazar el contenido de \texttt{sketch.ino} con el archivo incluido en \texttt{wokwi\_integrado}.
+  \item Abrir \texttt{diagram.json} y reemplazarlo con el diagrama incluido.
+  \item Crear \texttt{libraries.txt} con las bibliotecas indicadas.
+  \item Presionar \textit{Start Simulation}.
+  \item Mover los potenciómetros de sonido y brillo.
+  \item Pulsar MODO, COLOR y SECUENCIA o utilizar las teclas M, C y S.
+  \item Revisar la OLED y el monitor serial.
+  \item Guardar el proyecto para que Wokwi genere su enlace público.
+\end{enumerate}
+
+\subsection{Ruta profesional: VS Code + PlatformIO + Wokwi}
+\begin{enumerate}
+  \item Instalar Visual Studio Code.
+  \item Buscar e instalar la extensión oficial \textit{PlatformIO IDE}.
+  \item Instalar la extensión \textit{Wokwi Simulator}.
+  \item Abrir la carpeta \texttt{platformio\_simulacion}.
+  \item Ejecutar \textit{PlatformIO: Build}.
+  \item Verificar que se generen \texttt{firmware.bin} y \texttt{firmware.elf}.
+  \item Ejecutar \textit{Wokwi: Start Simulator}.
+  \item Para un servidor web futuro, activar el reenvío de puerto en \texttt{wokwi.toml}. \cite{wokwi-config}
+\end{enumerate}
+
+\begin{lstlisting}[style=code,language={},caption={Configuración incluida en wokwi.toml}]
+[wokwi]
+version = 1
+firmware = '.pio/build/esp32dev/firmware.bin'
+elf = '.pio/build/esp32dev/firmware.elf'
+
+# Etapa posterior: servidor web virtual
+# [[net.forward]]
+# from = 'localhost:8180'
+# to = 'target:80'
+\end{lstlisting}
+
+% ============================================================
+\section{Vista visual de la simulación}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{captura_simulador.png}
+\caption{Vista referencial del simulador visual local incluido en el paquete.}
+\end{figure}
+
+El archivo HTML ofrece cuatro vistas:
+\begin{enumerate}
+  \item \textbf{Estandartes iluminados}: permite cambiar modo, brillo, sonido y ejecutar la secuencia coordinada.
+  \item \textbf{Circuito y drivers}: muestra batería, convertidor, ESP32, adaptador lógico y zonas WS2812.
+  \item \textbf{Comunicación inalámbrica}: explica la relación entre el celular, el ESP32 central y los laterales.
+  \item \textbf{Enlaces de trabajo}: acceso a Wokwi, documentación y repositorio.
+\end{enumerate}
+
+\begin{successbox}[Cómo abrir la vista local]
+Descomprimir el ZIP y abrir \texttt{simulacion\_visual/Simulador\_Visual\_Estandarte\_IME.html} con Chrome, Edge o Firefox. No requiere instalación ni internet para las animaciones; solo los enlaces externos necesitan conexión.
+\end{successbox}
+
+% ============================================================
+\section{Alcance de la simulación electrónica integrada}
+\begin{center}
+\begin{tikzpicture}[
+  node distance=1.3cm and 1.7cm,
+  block/.style={draw=DeepBlue,rounded corners=3pt,fill=Soft,minimum width=3.15cm,minimum height=1.0cm,align=center,font=\bfseries},
+  led/.style={draw=#1,rounded corners=3pt,fill=#1!10,minimum width=3.35cm,minimum height=1.05cm,align=center,font=\bfseries},
+  arr/.style={-Latex,line width=1.2pt,draw=DeepBlue}
+]
+\node[block] (esp) {ESP32 DevKit V1\\Control central virtual};
+\node[led=Mechanical,above left=of esp] (m) {GPIO 16\\Tira MECÁNICA};
+\node[led=Violet,above=of esp] (c) {GPIO 17\\Matriz central 8x8};
+\node[led=Electric,above right=of esp] (e) {GPIO 18\\Tira ELÉCTRICA};
+\node[block,below left=of esp] (in) {GPIO 34/35\\Sonido y brillo};
+\node[block,below=of esp] (btn) {GPIO 25/26/27\\Tres botones};
+\node[block,below right=of esp] (oled) {I2C 21/22\\Pantalla OLED};
+\draw[arr] (esp)--(m);\draw[arr] (esp)--(c);\draw[arr] (esp)--(e);
+\draw[arr] (in)--(esp);\draw[arr] (btn)--(esp);\draw[arr] (esp)--(oled);
+\end{tikzpicture}
+\end{center}
+
+\begin{longtable}{@{}P{0.8cm}P{4.0cm}P{1.3cm}P{8.0cm}@{}}
+\caption{Elementos incluidos en el proyecto Wokwi}\\
+\toprule
+\textbf{N.°} & \textbf{Elemento} & \textbf{Cant.} & \textbf{Función}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{N.°} & \textbf{Elemento} & \textbf{Cant.} & \textbf{Función}\\
+\midrule
+\endhead
+1 & ESP32 DevKit V1 & 1 & Control virtual de las tres zonas.\\
+2 & Tira WS2812 & 2 & Representación de Mecánica y Eléctrica.\\
+3 & Matriz WS2812 8x8 & 1 & Símbolo de Zeus y panel central.\\
+4 & Resistencia de \SI{330}{\ohm} & 3 & Protección representativa de las líneas de datos.\\
+5 & Potenciómetro deslizante & 2 & Sonido simulado y ajuste de brillo.\\
+6 & Pulsador & 3 & Modo, paleta y secuencia coordinada.\\
+7 & OLED SSD1306 & 1 & Visualización de modo, sonido, brillo y paleta.\\
+8 & Monitor serial & 1 & Depuración y registro de eventos.\\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Distribución de pines y tendido de señales}
+\begin{table}[H]
+\centering
+\caption{Pinout de la simulación integrada}
+\begin{tabularx}{\textwidth}{@{}P{3.1cm}P{2.0cm}Y P{3.4cm}@{}}
+\toprule
+\textbf{Función} & \textbf{GPIO} & \textbf{Conexión} & \textbf{Observación}\\
+\midrule
+Mecánica & 16 & GPIO -- \SI{330}{\ohm} -- DIN & Salida FastLED independiente\\
+Centro & 17 & GPIO -- \SI{330}{\ohm} -- DIN & Matriz serpentina 8x8\\
+Eléctrica & 18 & GPIO -- \SI{330}{\ohm} -- DIN & Salida FastLED independiente\\
+Sonido & 34 & Cursor del potenciómetro & Se reemplaza por MAX4466 o micrófono digital\\
+Brillo & 35 & Cursor del potenciómetro & Regulación global\\
+Botón modo & 25 & Pulsador a GND & INPUT\_PULLUP; tecla M\\
+Botón color & 26 & Pulsador a GND & INPUT\_PULLUP; tecla C\\
+Botón secuencia & 27 & Pulsador a GND & INPUT\_PULLUP; tecla S\\
+OLED SDA & 21 & I2C & Dirección 0x3C\\
+OLED SCL & 22 & I2C & Dirección 0x3C\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Código de colores de cableado}
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{@{}P{2.5cm}P{3.0cm}Y@{}}
+\toprule
+\textbf{Color recomendado} & \textbf{Señal} & \textbf{Aplicación}\\
+\midrule
+Rojo & Positivo de potencia & Batería, salida DC-DC y alimentación LED\\
+Negro & GND & Retorno común dentro de cada módulo\\
+Verde & Datos Mecánica & Salida del ESP32/driver hacia DIN\\
+Azul & Datos centro & Señal hacia Zeus o matriz principal\\
+Violeta & Datos Eléctrica & Señal hacia el panel derecho\\
+Amarillo/naranja & Entradas analógicas & Micrófono, LDR y medición de batería\\
+Blanco & I2C o señal auxiliar & OLED y sensores\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Reglas de tendido físico}
+\begin{itemize}
+  \item No hacer circular la corriente de las tiras a través del pin 5 V del ESP32.
+  \item Mantener la línea de datos corta entre el driver y el primer LED.
+  \item Colocar la resistencia de 330--470 \si{\ohm} cerca de la salida del driver.
+  \item Colocar un condensador de 470--1000 \si{\micro\farad} cerca del inicio de cada tira.
+  \item Realizar inyección de 5 V y GND en varios puntos cuando la tira sea larga.
+  \item Separar físicamente cables de potencia y señales cuando sea posible.
+  \item Incorporar alivio de tensión y conectores con seguro para resistir vibraciones.
+\end{itemize}
+
+% ============================================================
+\section{Modos de iluminación}
+\begin{table}[H]
+\centering
+\caption{Catálogo de modos programados y propuestos}
+\begin{tabularx}{\textwidth}{@{}P{0.7cm}P{3.0cm}Y P{3.4cm}@{}}
+\toprule
+\textbf{N.°} & \textbf{Modo} & \textbf{Descripción} & \textbf{Uso}\\
+\midrule
+1 & Institucional & Colores mecánico y eléctrico, rayo central permanente y barrido suave & Marcha normal\\
+2 & Flujo IME & Mecánica carga energía, Zeus se activa y Eléctrica recibe la descarga & Presentación principal\\
+3 & Audio / VU & Cantidad de LED proporcional al nivel de sonido & Música, aplausos y bombo\\
+4 & Tormenta Zeus & Chispas, descargas y destellos controlados & Momento de impacto\\
+5 & Desfile & Secuencia multicolor continua & Recorrido festivo\\
+6 & Apagado & Todos los LED apagados & Ahorro y seguridad\\
+7 & Seguro & Efecto suave autónomo si se pierde la comunicación & Respaldo\\
+8 & Identificación & Cada módulo ilumina su nombre y color principal & Prueba y diagnóstico\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Secuencia principal propuesta}
+\begin{enumerate}
+  \item Encendido ascendente de MECÁNICA.
+  \item Simulación de movimiento de engranajes.
+  \item Pulso luminoso desde Mecánica hacia el centro.
+  \item Activación progresiva del rayo de Zeus.
+  \item Destello central breve y limitado.
+  \item Descarga del centro hacia ELÉCTRICA.
+  \item Encendido de ELÉCTRICA con barrido azul/cian.
+  \item Iluminación final conjunta con el nombre institucional.
+\end{enumerate}
+
+% ============================================================
+\section{Arquitectura física final de tres ESP32}
+\begin{center}
+\begin{tikzpicture}[
+  node distance=1.3cm and 2.0cm,
+  dev/.style={draw=DeepBlue,fill=Soft,rounded corners=4pt,minimum width=4.1cm,minimum height=1.25cm,align=center,font=\bfseries},
+  phone/.style={draw=Violet,fill=Violet!8,rounded corners=4pt,minimum width=3.5cm,minimum height=1.0cm,align=center,font=\bfseries},
+  arr/.style={Latex-Latex,line width=1.2pt}
+]
+\node[phone] (phone) {CELULAR\\Página web local};
+\node[dev,below=1.2cm of phone] (central) {ESP32 CENTRAL\\Zeus + servidor web + maestro};
+\node[dev,below left=1.8cm and 2.5cm of central] (mec) {ESP32 MECÁNICA\\LED + batería propia};
+\node[dev,below right=1.8cm and 2.5cm of central] (elec) {ESP32 ELÉCTRICA\\LED + batería propia};
+\draw[arr,Violet] (phone)--node[right,font=\small]{Wi-Fi local}(central);
+\draw[arr,Electric] (central)--node[above left,font=\small]{ESP-NOW}(mec);
+\draw[arr,Electric] (central)--node[above right,font=\small]{ESP-NOW}(elec);
+\end{tikzpicture}
+\end{center}
+
+\subsection{Razón para utilizar ESP-NOW}
+ESP-NOW permite comunicación directa entre dispositivos ESP32 sin router, con baja sobrecarga y envío de comandos pequeños. El maestro no debe transmitir el estado individual de cada LED; solamente enviará modo, brillo, color, velocidad, secuencia y hora de inicio. Cada receptor ejecutará localmente sus efectos. \cite{espnow}
+
+\subsection{Estructura del mensaje}
+\begin{table}[H]
+\centering
+\caption{Campos principales del protocolo propuesto}
+\begin{tabularx}{\textwidth}{@{}P{3.2cm}P{2.2cm}Y@{}}
+\toprule
+\textbf{Campo} & \textbf{Tipo} & \textbf{Función}\\
+\midrule
+Firma & uint32 & Identifica mensajes válidos del proyecto IME\\
+Secuencia & uint16 & Detecta mensajes repetidos o perdidos\\
+Destino & uint8 & Todos, Mecánica, centro o Eléctrica\\
+Modo & uint8 & Selecciona la animación\\
+Brillo & uint8 & Límite de 0 a 100 \%\\
+Velocidad & uint8 & Velocidad relativa de la animación\\
+RGB & 3 × uint8 & Color base\\
+EjecutarEnMs & uint32 & Hora futura para sincronizar los tres nodos\\
+CRC simple & uint16 & Verificación preliminar de integridad\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Control desde el celular}
+El ESP32 central funcionará como punto de acceso Wi-Fi con una red local, por ejemplo \texttt{ESTANDARTE\_IME}. El operador se conectará desde el teléfono y abrirá la dirección \texttt{192.168.4.1}. La interfaz permitirá:
+\begin{itemize}
+  \item encendido y apagado general;
+  \item selección de modo y color;
+  \item control de brillo y velocidad;
+  \item activación individual de Mecánica, Zeus o Eléctrica;
+  \item ejecución de la secuencia general;
+  \item visualización de conexión y batería;
+  \item apagado de emergencia.
+\end{itemize}
+
+% ============================================================
+\section{Sistema de potencia y baterías}
+\subsection{Arquitectura por módulo}
+\begin{center}
+\begin{tikzpicture}[
+  power/.style={draw=Mechanical,fill=Mechanical!8,rounded corners=2pt,minimum width=2.8cm,minimum height=0.95cm,align=center},
+  ctrl/.style={draw=DeepBlue,fill=Soft,rounded corners=2pt,minimum width=2.8cm,minimum height=0.95cm,align=center},
+  load/.style={draw=Electric,fill=Electric!8,rounded corners=2pt,minimum width=2.8cm,minimum height=0.95cm,align=center},
+  arr/.style={-Latex,line width=1pt}
+]
+\node[power] (bat) {Batería\\independiente};
+\node[power,right=0.8cm of bat] (fuse) {Fusible +\\interruptor};
+\node[power,right=0.8cm of fuse] (buck) {Convertidor\\DC-DC 5 V};
+\node[ctrl,right=0.8cm of buck] (esp) {ESP32 +\\74AHCT125};
+\node[load,right=0.8cm of esp] (led) {Tiras / matriz\\WS2812};
+\draw[arr,Mechanical] (bat)--(fuse);\draw[arr,Mechanical] (fuse)--(buck);
+\draw[arr,DeepBlue] (buck)--(esp);\draw[arr,Electric] (esp)--(led);
+\draw[-Latex,dashed,Gray] (buck.south) to[bend right=22] node[below,font=\small]{5 V y GND de potencia} (led.south);
+\end{tikzpicture}
+\end{center}
+
+\subsection{Ecuaciones de dimensionamiento}
+\begin{align}
+I_{\max} &= N_{LED}\,I_{LED,\max} \\
+P_{\max} &= V_{LED}\,I_{\max} \\
+E_{req} &= P_{prom}\,t \\
+C_{Ah} &= \frac{E_{req}}{V_{bat}\,\eta}
+\end{align}
+
+Donde $\eta$ es la eficiencia total del convertidor y del cableado. Para el diseño final se deberá medir el consumo del efecto real y no depender únicamente del máximo teórico.
+
+\subsection{Escenarios preliminares}
+\begin{table}[H]
+\centering
+\caption{Escenarios referenciales de corriente a 5 V}
+\begin{tabularx}{\textwidth}{@{}P{2.5cm}C C C Y@{}}
+\toprule
+\textbf{LED} & \textbf{Máx. a 60 mA/LED} & \textbf{Escenario 20 mA/LED} & \textbf{Límite recomendado inicial} & \textbf{Uso probable}\\
+\midrule
+72 & 4,32 A & 1,44 A & 2,5--3,5 A & Panel lateral\\
+100 & 6,00 A & 2,00 A & 3,5--4,5 A & Lateral grande\\
+144 & 8,64 A & 2,88 A & 4,5--6,0 A & Centro medio\\
+200 & 12,00 A & 4,00 A & 6,0--8,0 A & Centro grande\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{dangerbox}[Condiciones mínimas de seguridad]
+\begin{itemize}
+  \item Fusible individual por módulo.
+  \item Interruptor general accesible.
+  \item BMS adecuado si se utilizan baterías de litio.
+  \item Convertidor DC-DC sobredimensionado y ventilado.
+  \item Cable y conectores dimensionados para la corriente.
+  \item Protección contra polaridad invertida.
+  \item Caja cerrada, pero con disipación térmica.
+  \item Carga de baterías fuera del estandarte o mediante sistema certificado.
+\end{itemize}
+\end{dangerbox}
+
+\subsection{Opciones de batería a evaluar}
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{@{}P{3.1cm}Y Y@{}}
+\toprule
+\textbf{Opción} & \textbf{Ventajas} & \textbf{Consideraciones}\\
+\midrule
+LiFePO4 12,8 V & Mayor estabilidad térmica, buena vida útil, tensión adecuada para DC-DC & Mayor costo y volumen según capacidad\\
+Li-ion 3S con BMS & Buena relación energía/peso y disponibilidad & Requiere BMS, cargador correcto y protección mecánica\\
+Power bank USB-C PD & Fácil carga y transporte & Debe verificarse corriente sostenida, perfil de salida y apagado automático\\
+Batería sellada 12 V & Robusta y simple & Mayor peso; poco conveniente para módulos portátiles\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ============================================================
+\section{Diseño mecánico y distribución física}
+\subsection{Criterios de diseño}
+\begin{itemize}
+  \item Bajo peso y centro de gravedad próximo al portador.
+  \item Batería ubicada en la zona inferior.
+  \item Paneles desmontables y accesibles para mantenimiento.
+  \item Difusor delante de los LED para evitar puntos luminosos agresivos.
+  \item Canales protegidos para cableado.
+  \item Caja electrónica separada de la zona de agarre.
+  \item Protección contra golpes y movimiento repetitivo.
+  \item Ventilación para convertidores y controladores.
+\end{itemize}
+
+\subsection{Materiales candidatos}
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{@{}P{3.0cm}Y Y@{}}
+\toprule
+\textbf{Material} & \textbf{Aplicación} & \textbf{Observación}\\
+\midrule
+Tubo de aluminio & Bastidor y soporte & Ligero y resistente\\
+PVC espumado & Panel frontal y letras & Fácil de cortar y ligero\\
+Policarbonato/acrílico & Difusores y ventanas & Probar resistencia y peso\\
+Tela impresa & Fondo gráfico & Reduce peso y permite reemplazo\\
+Impresión 3D & Soportes, cajas y guías & Útil para piezas pequeñas\\
+Canaleta plástica & Protección de cableado & Facilita mantenimiento\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ============================================================
+\section{Plan de trabajo integral}
+\subsection{Estructura de desglose del trabajo}
+\begin{longtable}{@{}P{1.0cm}P{3.1cm}P{6.0cm}P{4.1cm}@{}}
+\caption{Fases, actividades y entregables}\\
+\toprule
+\textbf{Fase} & \textbf{Nombre} & \textbf{Actividades principales} & \textbf{Entregable}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Fase} & \textbf{Nombre} & \textbf{Actividades principales} & \textbf{Entregable}\\
+\midrule
+\endhead
+0 & Organización & Equipo, responsables, repositorio, calendario y restricciones & Acta de inicio\\
+1 & Diseño visual & Medidas, textos, Zeus, colores, distribución de LED y paneles & Boceto aprobado\\
+2 & Simulación integrada & Wokwi, pinout, OLED, controles, modos y monitor serial & Simulación funcional\\
+3 & Revisión visual & Ajuste de velocidad, brillo, secuencia y legibilidad & Catálogo aprobado\\
+4 & Desarrollo local & PlatformIO, organización del código y pruebas de compilación & Proyecto local\\
+5 & Red inalámbrica & ESP-NOW, página web, confirmaciones y modo seguro & Prueba de tres nodos\\
+6 & Ingeniería eléctrica & Corriente, batería, convertidores, fusibles, drivers y conectores & Esquemático y BOM\\
+7 & Prototipo parcial & 20--30 LED, un ESP32, batería y prueba térmica & Prototipo de banco\\
+8 & Diseño mecánico & Bastidor, paneles, difusores, cajas y distribución de peso & Planos y modelo 3D\\
+9 & Construcción & Corte, montaje, cableado y fijaciones & Tres módulos ensamblados\\
+10 & Integración & Firmware final, sincronización, web y sensores & Sistema completo\\
+11 & Validación & Autonomía, movimiento, alcance, temperatura y emergencia & Informe de pruebas\\
+12 & Operación & Manual, carga, transporte, responsables y repuestos & Kit operativo\\
+\bottomrule
+\end{longtable}
+
+\subsection{Cronograma referencial de 30 días}
+\begin{landscape}
+\begin{figure}[H]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{ganttchart}[
+  hgrid,vgrid,time slot format=isodate,time slot unit=day,
+  title/.style={fill=Navy,draw=Navy},title label font=\color{white}\bfseries,
+  bar/.style={fill=Electric!70,draw=DeepBlue},bar label font=\small,
+  group/.style={fill=Mechanical!75,draw=Mechanical},group label font=\bfseries\small,
+  milestone/.style={fill=Violet,draw=Violet},
+  y unit chart=0.38cm,
+  y unit title=0.48cm,
+  bar height=0.52,
+  group height=0.55,
+  milestone height=0.55
+]{2026-08-05}{2026-09-03}
+\gantttitlecalendar{month=name,day}\\
+\ganttgroup{Planificación y simulación}{2026-08-05}{2026-08-12}\\
+\ganttbar{Diseño visual}{2026-08-05}{2026-08-06}\\
+\ganttbar{Wokwi integrado}{2026-08-07}{2026-08-09}\\
+\ganttbar{Ajuste de animaciones}{2026-08-10}{2026-08-11}\\
+\ganttmilestone{Simulación aprobada}{2026-08-12}\\
+\ganttgroup{Firmware y comunicación}{2026-08-13}{2026-08-19}\\
+\ganttbar{PlatformIO}{2026-08-13}{2026-08-14}\\
+\ganttbar{ESP-NOW}{2026-08-15}{2026-08-17}\\
+\ganttbar{Web móvil}{2026-08-17}{2026-08-19}\\
+\ganttgroup{Ingeniería y prototipo}{2026-08-18}{2026-08-25}\\
+\ganttbar{Potencia y batería}{2026-08-18}{2026-08-20}\\
+\ganttbar{Prototipo parcial}{2026-08-21}{2026-08-23}\\
+\ganttbar{Diseño mecánico}{2026-08-21}{2026-08-25}\\
+\ganttgroup{Construcción e integración}{2026-08-26}{2026-09-01}\\
+\ganttbar{Construcción}{2026-08-26}{2026-08-29}\\
+\ganttbar{Cableado e integración}{2026-08-29}{2026-09-01}\\
+\ganttgroup{Validación}{2026-09-01}{2026-09-03}\\
+\ganttbar{Pruebas completas}{2026-09-01}{2026-09-02}\\
+\ganttmilestone{Ensayo general}{2026-09-03}
+\end{ganttchart}}
+\caption{Cronograma referencial. Debe ajustarse a la fecha oficial y disponibilidad del equipo.}
+\end{figure}
+\end{landscape}
+
+\subsection{Matriz RACI preliminar}
+\begin{table}[H]
+\centering
+\caption{Asignación de responsabilidades}
+\begin{tabularx}{\textwidth}{@{}P{4.3cm}C C C C@{}}
+\toprule
+\textbf{Actividad} & \textbf{Coord.} & \textbf{Electrónica} & \textbf{Programación} & \textbf{Mecánica/diseño}\\
+\midrule
+Definición visual & A & C & C & R\\
+Simulación Wokwi & A & C & R & C\\
+Firmware ESP32 & A & C & R & I\\
+Potencia y protección & A & R & C & C\\
+Estructura y soportes & A & C & I & R\\
+Montaje y cableado & A & R & C & R\\
+Pruebas & A & R & R & R\\
+Operación en parada & A/R & C & C & C\\
+\bottomrule
+\end{tabularx}
+\end{table}
+\textit{R = Responsable; A = Aprueba; C = Consultado; I = Informado.}
+
+% ============================================================
+\section{Lista preliminar de materiales}
+\begin{longtable}{@{}P{0.8cm}P{4.2cm}P{1.4cm}P{4.2cm}P{3.7cm}@{}}
+\caption{BOM preliminar para planificación}\\
+\toprule
+\textbf{N.°} & \textbf{Componente} & \textbf{Cant.} & \textbf{Especificación inicial} & \textbf{Observación}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{N.°} & \textbf{Componente} & \textbf{Cant.} & \textbf{Especificación inicial} & \textbf{Observación}\\
+\midrule
+\endhead
+1 & ESP32 DevKit & 4 & Tres en servicio y uno de reserva & Mismo modelo para todos\\
+2 & Tira WS2812B & Por definir & 5 V, densidad según diseño & Medir longitud real\\
+3 & Matriz/tiras para Zeus & 1 conjunto & WS2812 o segmentos personalizados & Panel central\\
+4 & 74AHCT125 & 3--4 & Adaptación lógica 3,3 V a 5 V & Uno por módulo\\
+5 & Resistencia 330--470 \si{\ohm} & 3--6 & En cada línea de datos & Cerca del driver\\
+6 & Condensador 1000 \si{\micro\farad} & 3--6 & Baja ESR, tensión adecuada & Cerca de tiras\\
+7 & Convertidor DC-DC & 3 & Capacidad según corriente medida & Con ventilación\\
+8 & Batería & 3 & Capacidad según autonomía & Una por módulo\\
+9 & Fusible y portafusible & 3--6 & Dimensionado por módulo & Repuesto disponible\\
+10 & Interruptor general & 3 & Corriente suficiente & Accesible\\
+11 & MAX4466 o micrófono digital & 1 & Sensor del módulo central & Evaluar ruido\\
+12 & OLED SSD1306 & 1 & I2C 0x3C & Diagnóstico local\\
+13 & Pulsadores & 4--6 & Modo, secuencia, emergencia & Panel central\\
+14 & Conectores XT30/XT60 o equivalentes & Varios & Polarizados y seguros & Potencia\\
+15 & Conectores de señal & Varios & Bloqueables & Mantenimiento\\
+16 & Cable de potencia & Según diseño & Sección según corriente & Rojo/negro\\
+17 & Cable de señal & Según diseño & Flexible y protegido & Datos/sensores\\
+18 & Caja electrónica & 3 & Ventilada y desmontable & Una por módulo\\
+19 & Difusor & Según diseño & Acrílico, policarbonato o PVC & Uniformidad visual\\
+20 & Bastidor & 3 & Aluminio/PVC estructural & Peso bajo\\
+\bottomrule
+\end{longtable}
+
+\subsection{Formato de presupuesto}
+\begin{table}[H]
+\centering
+\caption{Cuadro para completar cotizaciones}
+\begin{tabularx}{\textwidth}{@{}P{4.2cm}C R R R@{}}
+\toprule
+\textbf{Partida} & \textbf{Cant.} & \textbf{P. unitario} & \textbf{Subtotal} & \textbf{Proveedor}\\
+\midrule
+Controladores y sensores & & & & \\
+LED y difusores & & & & \\
+Baterías y convertidores & & & & \\
+Protección y conectores & & & & \\
+Estructura mecánica & & & & \\
+Impresión, acabado y rotulado & & & & \\
+Repuestos y contingencia & & & & \\
+\midrule
+\multicolumn{3}{r}{\textbf{TOTAL}} & & \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ============================================================
+\section{Plan de pruebas y criterios de aceptación}
+\begin{longtable}{@{}P{3.0cm}P{6.7cm}P{4.8cm}@{}}
+\caption{Matriz de verificación}\\
+\toprule
+\textbf{Prueba} & \textbf{Procedimiento} & \textbf{Criterio de aceptación}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Prueba} & \textbf{Procedimiento} & \textbf{Criterio de aceptación}\\
+\midrule
+\endhead
+Compilación Wokwi & Ejecutar el firmware integrado & Sin errores ni reinicios\\
+Zonas independientes & Activar cada salida & No hay interferencias\\
+Botones & Pulsar repetidamente & Una acción por pulsación\\
+Entradas analógicas & Mover potenciómetros & Respuesta progresiva\\
+Secuencia & Ejecutar Flujo IME & Orden Mecánica--Zeus--Eléctrica\\
+Brillo & Recorrer 10--100 \% & Sin bloqueos ni cambios bruscos\\
+Web móvil & Conectar celular y enviar comandos & Respuesta correcta y clara\\
+ESP-NOW & Separar tres placas y enviar secuencias & Recepción estable y confirmada\\
+Pérdida de enlace & Apagar el central & Laterales entran en modo seguro\\
+Consumo & Medir corriente de cada modo & Dentro del límite configurado\\
+Caída de tensión & Medir inicio y final de tiras & Diferencia aceptable, sin cambios de color\\
+Temperatura & Operar el tiempo objetivo & Sin sobrecalentamiento\\
+Autonomía & Ejecutar programa real & Cumple duración más margen\\
+Vibración & Simular marcha & Sin desconexiones\\
+Visibilidad diurna & Probar al exterior & Texto y efectos identificables\\
+Emergencia & Activar apagado & Corte inmediato y seguro\\
+\bottomrule
+\end{longtable}
+
+\subsection{Registro de resultados}
+Cada prueba deberá registrar fecha, responsable, firmware, batería, número de LED, modo, brillo, corriente, tensión, temperatura, resultado y observaciones. Los resultados deben almacenarse en una hoja compartida o dentro del repositorio.
+
+% ============================================================
+\section{Riesgos y medidas de control}
+\begin{longtable}{@{}P{4.0cm}P{1.8cm}P{1.8cm}P{6.3cm}@{}}
+\caption{Matriz preliminar de riesgos}\\
+\toprule
+\textbf{Riesgo} & \textbf{Prob.} & \textbf{Impacto} & \textbf{Medida preventiva}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Riesgo} & \textbf{Prob.} & \textbf{Impacto} & \textbf{Medida preventiva}\\
+\midrule
+\endhead
+Consumo mayor al previsto & Media & Alto & Limitar brillo, medir corriente y sobredimensionar convertidor\\
+Caída de tensión & Alta & Medio & Inyección de alimentación y cable de mayor sección\\
+Pérdida de comunicación & Media & Medio & Modo seguro y botones físicos\\
+Polaridad invertida & Baja & Alto & Conectores polarizados y protección\\
+Sobrecalentamiento & Media & Alto & Ventilación, disipación y prueba térmica\\
+Vibración y desconexión & Media & Alto & Conectores con seguro y alivio de tensión\\
+Autonomía insuficiente & Media & Alto & Prueba con programa real y batería con margen\\
+Daño del ESP32 & Baja & Medio & Placa de repuesto y conectores rápidos\\
+Exceso de estrobo & Media & Medio & Limitar frecuencia, brillo y duración\\
+Falla del celular & Media & Medio & Botones físicos y modo autónomo\\
+Lluvia o humedad & Baja/Media & Alto & Protección mecánica y procedimiento de suspensión\\
+Carga insegura de batería & Baja & Alto & Cargador apropiado y responsable designado\\
+\bottomrule
+\end{longtable}
+
+% ============================================================
+\section{Organización del repositorio y control de versiones}
+\begin{lstlisting}[style=code,language={},caption={Estructura incluida en el paquete}]
+Estandarte_IME_Gran_Plan_2026/
+|-- Gran_Plan_Trabajo_Simulacion_Estandarte_IME.tex
+|-- Gran_Plan_Trabajo_Simulacion_Estandarte_IME.pdf
+|-- README_INICIO.md
+|-- simulacion_visual/
+|   `-- Simulador_Visual_Estandarte_IME.html
+|-- wokwi_integrado/
+|   |-- sketch.ino
+|   |-- diagram.json
+|   |-- libraries.txt
+|   `-- README_WOKWI.md
+|-- platformio_simulacion/
+|   |-- platformio.ini
+|   |-- wokwi.toml
+|   |-- diagram.json
+|   `-- src/main.cpp
+|-- arquitectura_3_esp32/
+|   |-- comun/protocolo.h
+|   |-- central/central_maestro.ino
+|   |-- mecanica/receptor_mecanica.ino
+|   `-- electrica/receptor_electrica.ino
+`-- recursos/
+    |-- captura_simulador.png
+    `-- codigos QR
+\end{lstlisting}
+
+\subsection{Reglas de trabajo}
+\begin{itemize}
+  \item Una rama para simulación, otra para red inalámbrica y otra para documentación.
+  \item No subir contraseñas reales ni información sensible.
+  \item Etiquetar versiones estables antes de las pruebas físicas.
+  \item Registrar cambios de pines, número de LED y configuración de batería.
+  \item Mantener un ESP32 de repuesto con la última versión estable.
+\end{itemize}
+
+% ============================================================
+\section{Manual operativo preliminar}
+\subsection{Antes de la parada}
+\begin{enumerate}
+  \item Cargar las tres baterías y verificar tensión.
+  \item Revisar fusibles, conectores y fijaciones.
+  \item Encender cada módulo individualmente.
+  \item Verificar el modo seguro de cada lateral.
+  \item Encender el central y conectar el celular.
+  \item Ejecutar una secuencia general.
+  \item Confirmar autonomía y llevar repuestos.
+\end{enumerate}
+
+\subsection{Durante la parada}
+\begin{itemize}
+  \item Mantener brillo moderado durante el recorrido normal.
+  \item Reservar el modo Tormenta para momentos breves.
+  \item Evitar modificar el cableado con el sistema energizado.
+  \item Designar una sola persona para el control desde celular.
+  \item Tener acceso inmediato a los interruptores generales.
+\end{itemize}
+
+\subsection{Después de la actividad}
+\begin{itemize}
+  \item Apagar los módulos antes de desconectar baterías.
+  \item Revisar temperatura, conectores y cables.
+  \item Cargar baterías según el procedimiento del fabricante.
+  \item Registrar fallas y mejoras para el siguiente uso.
+\end{itemize}
+
+% ============================================================
+\section{Entregables y criterios de cierre}
+El proyecto se considerará listo para la parada cuando cumpla lo siguiente:
+\begin{enumerate}
+  \item Simulación integrada aprobada por el equipo.
+  \item Diseño visual y dimensiones cerradas.
+  \item Tres ESP32 sincronizados mediante ESP-NOW.
+  \item Control web accesible desde al menos dos teléfonos de prueba.
+  \item Consumo medido y limitado por módulo.
+  \item Autonomía comprobada con margen.
+  \item Estructura resistente al movimiento.
+  \item Modo seguro y apagado de emergencia verificados.
+  \item Manual, repuestos y responsables definidos.
+\end{enumerate}
+
+% ============================================================
+\section{Conclusiones y decisión recomendada}
+La ruta más segura y eficiente es comenzar con Wokwi y el simulador visual local, aprobar la apariencia y los modos, y recién después cerrar el número de LED y el sistema de baterías. La arquitectura final debe usar tres ESP32, ESP-NOW entre módulos y una página web local alojada en el ESP32 central.
+
+\begin{successbox}[Siguiente acción inmediata]
+Abrir \texttt{simulacion\_visual/Simulador\_Visual\_Estandarte\_IME.html}, revisar la secuencia Mecánica--Zeus--Eléctrica y luego importar la carpeta \texttt{wokwi\_integrado} en Wokwi. Después de aprobar los efectos, se debe definir la cantidad real de LED y construir un prototipo de 20--30 LED.
+\end{successbox}
+
+% ============================================================
+\appendix
+\section{Anexo A: archivo PlatformIO}
+\lstinputlisting[style=code,language={},caption={platformio.ini}]{platformio_simulacion/platformio.ini}
+
+\section{Anexo B: configuración Wokwi local}
+\lstinputlisting[style=code,language={},caption={wokwi.toml}]{platformio_simulacion/wokwi.toml}
+
+\section{Anexo C: protocolo común de tres ESP32}
+\lstinputlisting[style=code,language={},caption={protocolo.h}]{arquitectura_3_esp32/comun/protocolo.h}
+
+\section{Anexo D: firmware del ESP32 central}
+\lstinputlisting[style=code,language={},firstline=1,lastline=14,caption={Inicio y dependencias del firmware central}]{arquitectura_3_esp32/central/central-maestro.ino}\par\smallskip El archivo completo se incluye en el paquete ZIP.
+
+\section{Anexo E: receptor Mecánica}
+\lstinputlisting[style=code,language={},caption={Firmware receptor Mecánica}]{arquitectura_3_esp32/mecanica/receptor-mecanica.ino}
+
+\section{Anexo F: receptor Eléctrica}
+\lstinputlisting[style=code,language={},caption={Firmware receptor Eléctrica}]{arquitectura_3_esp32/electrica/receptor-electrica.ino}
+
+\section{Anexo G: enlaces oficiales}
+\begin{thebibliography}{99}
+\bibitem{wokwi-home} Wokwi, \textit{Welcome to Wokwi}. \url{https://docs.wokwi.com/}
+\bibitem{wokwi-esp32} Wokwi, \textit{ESP32 Simulation}. \url{https://docs.wokwi.com/guides/esp32}
+\bibitem{wokwi-faq} Wokwi, \textit{Frequently Asked Questions}. \url{https://docs.wokwi.com/faq}
+\bibitem{wokwi-strip} Wokwi, \textit{WS2812 LED Strip Reference}. \url{https://docs.wokwi.com/parts/wokwi-led-strip}
+\bibitem{wokwi-matrix} Wokwi, \textit{WS2812 LED Matrix Reference}. \url{https://docs.wokwi.com/parts/wokwi-led-matrix}
+\bibitem{wokwi-diagram} Wokwi, \textit{diagram.json File Format}. \url{https://docs.wokwi.com/diagram-format}
+\bibitem{wokwi-vscode} Wokwi, \textit{Getting Started with Wokwi for VS Code}. \url{https://docs.wokwi.com/vscode/getting-started}
+\bibitem{wokwi-config} Wokwi, \textit{Configuring Your Project}. \url{https://docs.wokwi.com/vscode/project-config}
+\bibitem{platformio-vscode} PlatformIO, \textit{PlatformIO IDE for VSCode}. \url{https://docs.platformio.org/en/stable/integration/ide/vscode.html}
+\bibitem{espnow} Espressif Systems, \textit{Arduino-ESP32 ESP-NOW API}. \url{https://docs.espressif.com/projects/arduino-esp32/en/latest/api/espnow.html}
+\bibitem{espwifi} Espressif Systems, \textit{Arduino-ESP32 Wi-Fi API}. \url{https://docs.espressif.com/projects/arduino-esp32/en/latest/api/wifi.html}
+\bibitem{fastled-power} FastLED, \textit{Power Management Functions}. \url{https://fastled.io/docs/d3/d1d/group___power.html}
+\bibitem{repo-base} Gael Renzo, \textit{Estandarte LED Interactivo con IA}. \url{https://github.com/gaelrenzo/Estandarte-LED-Interactivo-conIA}
+\end{thebibliography}
+
+\end{document}

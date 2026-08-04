@@ -1,28 +1,36 @@
 # Documentación
 
-Índice general de toda la documentación técnica del **Estandarte LED Interactivo con IA**.
+Índice general de toda la documentación del **Estandarte LED IME**.
 
 ## Documentos incluidos
 
 | Carpeta | Contenido | Descripción |
 |---------|-----------|-------------|
-| `informe/` | `informe_final.md` | Informe final del proyecto: introducción, metodología, resultados y conclusiones. |
-| `control/` | `analisis_control.md` | Análisis del sistema de control de luces e interacción (lazo abierto/cerrado, PIDs, sintonización). |
+| `gran_plan/` | `Gran_Plan_Trabajo_Simulacion_Estandarte_IME.pdf` + `.tex` | Plan integral del proyecto (28 págs.): simulación, arquitectura, potencia. |
+| `informe/` | `informe_final.md` | Informe final: introducción, metodología, resultados y conclusiones. |
+| `control/` | `analisis_control.md` | Análisis del sistema de control de luces e interacción. |
 
 ## Para qué sirve cada documento
 
-- **Informe final**: documento académico/técnico de presentación del proyecto, con resultados medidos y conclusiones.
-- **Análisis de control**: explica cómo se traduce el nivel de audio en brillo/efecto, qué tipo de control se usa y cómo mejorarlo (respuesta temporal, filtros, estabilidad).
+- **Gran plan (PDF/LaTeX)**: documento principal del proyecto, con instalación
+  paso a paso del entorno, simulación, distribución de pines, modos de
+  iluminación, arquitectura de tres ESP32 y dimensionamiento de potencia.
+- **Informe final**: presentación académica con resultados y conclusiones.
+- **Análisis de control**: cómo se traduce el audio en brillo/efecto y cómo
+  mejorar la respuesta (filtros, PID, lazo cerrado).
 
-## Convenciones del proyecto
+## Generar el PDF desde LaTeX
 
-- Todos los README de carpetas explican el contenido y cómo usarlo.
-- Los diagramas van en `hardware/circuito/diagramas/` y las fotos en `hardware/circuito/imagenes/`.
-- Los documentos técnicos se escriben en Markdown para mantener versionado y trazabilidad.
+```bash
+cd documentacion/gran_plan
+pdflatex Gran_Plan_Trabajo_Simulacion_Estandarte_IME.tex
+# repetir si aparece "Rerun to get cross-references right"
+```
 
 ## Guía de lectura
 
-1. Empieza por el [`README.md`](../../README.md) raíz para el contexto.
-2. Revisa `hardware/` para el montaje.
-3. Revisa `software/` para el código y la IA.
-4. Cierra con `informe/` (resultados) y `control/` (teoría de control aplicada).
+1. Empieza por el [`README.md`](../../README.md) raíz.
+2. Abre el **gran plan** para el contexto completo.
+3. Revisa `../simulacion_visual/` para la demo interactiva.
+4. Revisa `../software/` para código y simulaciones.
+5. Cierra con `informe/` (resultados) y `control/` (teoría de control).

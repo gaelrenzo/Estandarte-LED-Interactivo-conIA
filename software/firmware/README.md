@@ -1,57 +1,50 @@
-# Firmware ESP32
+# Firmware del Estandarte IME
 
-Firmware encargado de leer el micrófono y controlar las tiras LED WS2812 del estandarte.
+Código de control del estandarte LED, tanto en simulación como en la
+arquitectura física de tres ESP32.
 
-## Características
+## Estructura
 
-- Lectura del **nivel de audio** por ADC (GPIO 34).
-- Control de animaciones sobre tiras **WS2812** con **FastLED**.
-- Modo autónomo (reactivo al sonido) y modo asistido por PC (comandos serial).
-- Base extensible: agregar modos de efecto o nuevos sensores sin reescribir todo.
-
-## Dependencias
-
-- `FastLED` (o `Adafruit_NeoPixel`).
-- `ArduinoJson` (solo si se usa comunicación JSON por serial).
-
-## Distribución de pines
-
-| Función | Pin |
-|---------|-----|
-| Datos WS2812 | 5 |
-| Micrófono (ADC) | 34 |
-
-## Código fuente
-
-- [`src/main.cpp`](src/main.cpp): programa principal.
-- [`src/leds.h`](src/leds.h): funciones de animación de LEDs.
-- [`src/audio.h`](src/audio.h): lectura y suavizado del audio.
-
-## Compilación y subida
-
-### PlatformIO
-```bash
-pio run -t upload
-pio device monitor
+```
+firmware/
+├── README.md                    # Este archivo
+├── arquitectura_3_esp32/        # Base de la versión física (ESP-NOW)
+│   ├── README_3_ESP32.md
+│   ├── central/central_maestro.ino    # Wi-Fi + página web + envía comandos
+│   ├── electrica/receptor_electrica.ino
+│   ├── mecanica/receptor_mecanica.ino
+│   └── comun/protocolo.h              # Protocolo compartido (ComandoIME)
+└── prototipo_IA/                # Prototipo previo: tiras reactivas a audio + IA
+    ├── README.md
+    ├── main.cpp                 # Lectura ADC, efectos FastLED, serial
+    ├── leds.h                   # Efectos de animación
+    └── audio.h                  # Lectura y suavizado del micrófono
 ```
 
-### Arduino IDE
-1. Configurar placa **ESP32 Dev Module**.
-2. Instalar librería **FastLED**.
-3. Abrir `src/main.cpp` y subir.
+## Arquitectura física: tres ESP32
 
-## Comunicación serial (modo IA)
+- **Central**: crea la red Wi-Fi local `ESTANDARTE_IME`, aloja la página de
+  control y envía comandos **ESP-NOW**.
+- **Mecánica** y **Eléctrica**: reciben comandos, controlan sus tiras WS2812 y
+  entran en un **modo seguro** si pierden el enlace.
 
-Mensajes entrantes (desde `../ia/`):
-- `set <modo>` → cambia el efecto. Ej: `set vu`, `set wave`, `set strobe`.
-- `int <0-100>` → intensidad objetivo (usada por el control).
-- `color <r>,<g>,<b>` → color fijo.
+Ver [`arquitectura_3_esp32/README_3_ESP32.md`](arquitectura_3_esp32/README_3_ESP32.md).
 
-Salidas (para depuración):
-- `L0: <nivel>` cada N ms con el nivel de audio normalizado.
+## Firmware principal (simulación integrada)
 
-## Notas de escalabilidad
+El firmware con los efectos de las tres zonas se encuentra en
+[`../simulaciones/platformio/src/main.cpp`](../simulaciones/platformio/src/main.cpp)
+(idéntico a `../simulaciones/wokwi/sketch.ino`). Contiene 6 modos:
+Institucional, Flujo IME, Audio/VU, Tormenta Zeus, Desfile y Apagado.
 
-- El número de LED se define en la constante `NUM_LEDS`; recalcular corriente según el total.
-- Agregar efectos = agregar un caso en `applyEffect()` y su función en `leds.h`.
-- Para IA embebida, reemplazar el módulo serie por `tflite-micro` (ver `software/ia/`).
+## Prototipo IA (previo)
+
+Versión inicial donde las tiras reaccionan al **nivel de audio** del micrófono
+MAX4466, controladas por scripts de IA en Python. Ver
+[`prototipo_IA/README.md`](prototipo_IA/README.md).
+
+## Notas
+
+- Los sketches `.ino` incluyen `../comun/protocolo.h`; conserva la estructura
+  de carpetas al abrirlos en Arduino IDE.
+- La red ESP-NOW debe validarse con placas reales (Wokwi no simula multi-ESP32).

@@ -1,0 +1,195 @@
+{
+  "version": 1,
+  "author": "Proyecto Estandarte IME",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-devkit-v1",
+      "id": "esp",
+      "top": 270,
+      "left": 250,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led-strip",
+      "id": "mecanica",
+      "top": -205,
+      "left": -160,
+      "rotate": 90,
+      "attrs": { "pixels": "20", "pixelShape": "circle", "pixelSize": "3535" }
+    },
+    {
+      "type": "wokwi-led-matrix",
+      "id": "centro",
+      "top": -255,
+      "left": 185,
+      "attrs": {
+        "rows": "8",
+        "cols": "8",
+        "layout": "serpentine",
+        "pixelShape": "square",
+        "pixelSize": "3535",
+        "brightness": "1"
+      }
+    },
+    {
+      "type": "wokwi-led-strip",
+      "id": "electrica",
+      "top": -205,
+      "left": 720,
+      "rotate": 90,
+      "attrs": { "pixels": "20", "pixelShape": "circle", "pixelSize": "3535" }
+    },
+    {
+      "type": "board-ssd1306",
+      "id": "oled",
+      "top": 265,
+      "left": 585,
+      "attrs": { "i2cAddress": "0x3c" }
+    },
+    {
+      "type": "wokwi-slide-potentiometer",
+      "id": "potSonido",
+      "top": 505,
+      "left": -80,
+      "attrs": { "value": "400", "travelLength": "60" }
+    },
+    {
+      "type": "wokwi-slide-potentiometer",
+      "id": "potBrillo",
+      "top": 505,
+      "left": 95,
+      "attrs": { "value": "650", "travelLength": "60" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnModo",
+      "top": 510,
+      "left": 485,
+      "attrs": { "color": "#1565c0", "label": "MODO", "key": "M", "bounce": "0" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnColor",
+      "top": 510,
+      "left": 590,
+      "attrs": { "color": "#ff9800", "label": "COLOR", "key": "C", "bounce": "0" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnSecuencia",
+      "top": 510,
+      "left": 700,
+      "attrs": { "color": "#7b1fa2", "label": "SECUENCIA", "key": "S", "bounce": "0" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "rM",
+      "top": 180,
+      "left": 65,
+      "rotate": 90,
+      "attrs": { "value": "330" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "rC",
+      "top": 180,
+      "left": 265,
+      "rotate": 90,
+      "attrs": { "value": "330" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "rE",
+      "top": 180,
+      "left": 465,
+      "rotate": 90,
+      "attrs": { "value": "330" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "txtM",
+      "top": -290,
+      "left": -85,
+      "attrs": { "text": "MECANICA - zona vertical" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "txtC",
+      "top": -330,
+      "left": 240,
+      "attrs": { "text": "CENTRO - ZEUS / ESCUELA IME" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "txtE",
+      "top": -290,
+      "left": 735,
+      "attrs": { "text": "ELECTRICA - zona vertical" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "txtP1",
+      "top": 575,
+      "left": -75,
+      "attrs": { "text": "SONIDO SIMULADO" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "txtP2",
+      "top": 575,
+      "left": 115,
+      "attrs": { "text": "BRILLO" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "txtNota",
+      "top": 645,
+      "left": 120,
+      "attrs": { "text": "Montaje real: baterias separadas + fusible + convertidor 5V + 74AHCT125 por modulo" }
+    }
+  ],
+  "connections": [
+    [ "esp:16", "rM:1", "green", [ "v-30", "h-210" ] ],
+    [ "rM:2", "mecanica:DIN", "green", [ "v-145", "h-110" ] ],
+    [ "esp:17", "rC:1", "blue", [ "v-50", "h-20" ] ],
+    [ "rC:2", "centro:DIN", "blue", [ "v-120", "h25" ] ],
+    [ "esp:18", "rE:1", "purple", [ "v-30", "h165" ] ],
+    [ "rE:2", "electrica:DIN", "purple", [ "v-145", "h180" ] ],
+
+    [ "mecanica:VDD", "esp:VIN", "red", [ "v480", "h290" ] ],
+    [ "mecanica:VSS", "esp:GND.1", "black", [ "v500", "h320" ] ],
+    [ "centro:VDD", "esp:VIN", "red", [ "v420", "h55" ] ],
+    [ "centro:VSS", "esp:GND.1", "black", [ "v440", "h85" ] ],
+    [ "electrica:VDD", "esp:VIN", "red", [ "v480", "h-210" ] ],
+    [ "electrica:VSS", "esp:GND.1", "black", [ "v500", "h-230" ] ],
+
+    [ "oled:SDA", "esp:21", "green", [ "h-70", "v50" ] ],
+    [ "oled:SCL", "esp:22", "blue", [ "h-55", "v25" ] ],
+    [ "oled:VCC", "esp:3V3", "red", [ "h-80", "v70" ] ],
+    [ "oled:GND", "esp:GND.2", "black", [ "h-95", "v95" ] ],
+
+    [ "potSonido:SIG", "esp:34", "orange", [ "v-45", "h280" ] ],
+    [ "potSonido:VCC", "esp:3V3", "red", [ "v-65", "h340" ] ],
+    [ "potSonido:GND", "esp:GND.1", "black", [ "v-85", "h360" ] ],
+
+    [ "potBrillo:SIG", "esp:35", "orange", [ "v-35", "h190" ] ],
+    [ "potBrillo:VCC", "esp:3V3", "red", [ "v-55", "h245" ] ],
+    [ "potBrillo:GND", "esp:GND.1", "black", [ "v-75", "h260" ] ],
+
+    [ "btnModo:1.l", "esp:25", "green", [ "v-55", "h-20" ] ],
+    [ "btnModo:2.l", "esp:GND.2", "black", [ "v-30", "h-70" ] ],
+    [ "btnColor:1.l", "esp:26", "orange", [ "v-90", "h-90" ] ],
+    [ "btnColor:2.l", "esp:GND.2", "black", [ "v-40", "h-165" ] ],
+    [ "btnSecuencia:1.l", "esp:27", "purple", [ "v-115", "h-165" ] ],
+    [ "btnSecuencia:2.l", "esp:GND.2", "black", [ "v-50", "h-260" ] ],
+
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ]
+  ],
+  "serialMonitor": {
+    "display": "terminal",
+    "newline": "lf"
+  },
+  "dependencies": {}
+}

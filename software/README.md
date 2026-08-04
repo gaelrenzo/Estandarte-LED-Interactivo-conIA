@@ -1,61 +1,42 @@
 # Software
 
-Descripción del código y del entorno de desarrollo del **Estandarte LED Interactivo con IA**.
+Código y simulaciones del **Estandarte LED IME**.
 
-## Estructura del software
+## Estructura
 
 ```
 software/
 ├── README.md          # Este archivo
-├── firmware/          # Código del ESP32 (Arduino / PlatformIO)
+├── simulaciones/      # Simulaciones (Wokwi y PlatformIO)
 │   ├── README.md
-│   └── src/           # Código fuente principal
-└── ia/                # Scripts de IA para análisis de audio
+│   ├── wokwi/         # Simulación en navegador (Wokwi)
+│   └── platformio/    # Proyecto local VS Code + PlatformIO
+└── firmware/          # Firmware del estandarte
     ├── README.md
-    └── scripts/       # Scripts Python
+    ├── arquitectura_3_esp32/  # Base física: central + mecánica + eléctrica (ESP-NOW)
+    └── prototipo_IA/          # Prototipo previo: LED reactivos a audio con IA
 ```
 
-## Entornos
+## Simulaciones
 
-### Firmware (ESP32)
-- **Plataforma**: Arduino IDE o PlatformIO.
-- **Librerías**: `FastLED` (o `Adafruit_NeoPixel`), `WiFi`, `ArduinoJson` (para comunicación con IA externa).
-- **Placa**: ESP32 DevKit V1 (DOIT).
-- **Baudrate serial**: 115200.
+El firmware principal (tres zonas LED + matriz 8×8 + OLED + botones +
+potenciómetros) está disponible en dos entornos:
 
-### IA (Python)
-- **Python 3.9+**
-- **Bibliotecas**: `numpy`, `scipy`, `sounddevice` (o `pyaudio`), `matplotlib` (visualización), `pyserial` (comunicación con ESP32).
-- Opcional: `tensorflow`/`tflite-micro` para IA embebida en el ESP32.
+- **Wokwi (navegador)**: `simulaciones/wokwi/` — rápido, sin instalación.
+- **PlatformIO (local)**: `simulaciones/platformio/` — compilar y simular en VS Code.
 
-## Flujo de datos
+Ver [`simulaciones/README.md`](simulaciones/README.md).
 
-```
-MAX4466 ──► ESP32 ADC ──► Firmware (efectos LED)
-   │                         │
-   └──► [opcional] Serial ───┴──► PC (Python IA) ──► comandos back
-```
+## Firmware
 
-Modos:
-1. **Autónomo**: el ESP32 mide el nivel de audio y decide los efectos.
-2. **Asistido por PC**: el Python captura audio, clasifica (música/voz/ruido, BPM, intensidad) y envía comandos al ESP32 por serial.
+- [`arquitectura_3_esp32/`](firmware/arquitectura_3_esp32/): arquitectura
+  física final con tres ESP32 coordinados por ESP-NOW y página web de control.
+- [`prototipo_IA/`](firmware/prototipo_IA/): prototipo previo donde las tiras
+  reaccionan al nivel de audio analizado por scripts de IA (Python).
 
-## Instalación
+Ver [`firmware/README.md`](firmware/README.md).
 
-### Firmware
-```bash
-cd software/firmware
-# Con PlatformIO:
-pio run -t upload
-# Con Arduino IDE: abrir src/main.cpp y subir a la placa ESP32
-```
+## Instalación de herramientas
 
-### IA
-```bash
-cd software/ia
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-Ver más detalles en [`firmware/`](firmware/README.md) e [`ia/`](ia/README.md).
+- **PlatformIO**: VS Code → Extensiones → buscar *PlatformIO IDE* y *Wokwi Simulator*.
+- **Python (prototipo IA)**: `pip install -r ia/scripts/requirements.txt`.
