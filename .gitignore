@@ -21,3 +21,12 @@ __pycache__/
 # Archivos temporales del sistema
 .DS_Store
 Thumbs.db
+# LaTeX auxiliares
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.tcp
+*.synctex.gz
