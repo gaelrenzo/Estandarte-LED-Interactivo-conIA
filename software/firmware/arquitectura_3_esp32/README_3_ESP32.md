@@ -1,5 +1,9 @@
 # Arquitectura física de tres ESP32
 
+> Coordinación inalámbrica por **ESP-NOW**: un central + dos módulos receptores.
+
+[![Red](https://img.shields.io/badge/Red-ESP--NOW-00aeef)](..#) [![Firmware](https://img.shields.io/badge/Firmware-Arduino%2FPlatformIO-15a0d8)](..#)
+
 - **Central**: crea la red Wi-Fi local `ESTANDARTE_IME`, aloja la página de control y envía comandos ESP-NOW.
 - **Mecánica**: recibe comandos, controla sus tiras y mantiene un modo seguro si se pierde el enlace.
 - **Eléctrica**: recibe comandos, controla sus tiras y mantiene un modo seguro.

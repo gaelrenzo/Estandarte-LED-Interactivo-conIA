@@ -1,6 +1,15 @@
 # Documentación
 
-Índice general de toda la documentación del **Estandarte LED IME**.
+> Índice general de toda la documentación del **Estandarte LED IME**.
+
+[![Plan](https://img.shields.io/badge/Plan-PDF%2BLaTeX-2b7f3b)](gran_plan/) [![Informe](https://img.shields.io/badge/Informe-final-ffb300)](informe/informe_final.md) [![Control](https://img.shields.io/badge/Control-luces-15a0d8)](control/analisis_control.md)
+
+## Índice
+
+- [Documentos incluidos](#documentos-incluidos)
+- [Para qué sirve cada documento](#para-qué-sirve-cada-documento)
+- [Generar el PDF desde LaTeX](#generar-el-pdf-desde-latex)
+- [Guía de lectura](#guía-de-lectura)
 
 ## Documentos incluidos
 

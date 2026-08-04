@@ -1,6 +1,17 @@
 # Hardware
 
-Descripción del hardware del **Estandarte LED Interactivo con IA**.
+> Descripción del hardware del **Estandarte LED IME**: componentes, pines,
+> bloqueo, buenas prácticas y cómo montar cada módulo.
+
+[![Placa](https://img.shields.io/badge/Placa-ESP32-15a0d8)](..#) [![LED](https://img.shields.io/badge/LED-WS2812-orange)](..#) [![Mic](https://img.shields.io/badge/Mic-MAX4466-purple)](..#)
+
+## Índice
+
+- [Componentes principales](#componentes-principales)
+- [Especificaciones clave](#especificaciones-clave)
+- [Diagrama de bloques](#diagrama-de-bloques)
+- [Distribución de pines](#distribución-de-pines-sugerida-esp32)
+- [Buenas prácticas](#buenas-prácticas)
 
 ## Componentes principales
 

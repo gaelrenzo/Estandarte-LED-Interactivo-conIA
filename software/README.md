@@ -1,6 +1,15 @@
 # Software
 
-Código y simulaciones del **Estandarte LED IME**.
+> Código, firmware y simulaciones del **Estandarte LED IME**.
+
+[![Wokwi](https://img.shields.io/badge/Wokwi-simulaci%C3%B3n-2b7f3b)](../software/simulaciones/wokwi/) [![PlatformIO](https://img.shields.io/badge/PlatformIO-local-00aeef)](../software/simulaciones/platformio/) [![ESP-NOW](https://img.shields.io/badge/Red-ESP--NOW-15a0d8)](../software/firmware/arquitectura_3_esp32/)
+
+## Índice
+
+- [Estructura](#estructura)
+- [Simulaciones](#simulaciones)
+- [Firmware](#firmware)
+- [Instalación](#instalación-de-herramientas)
 
 ## Estructura
 
