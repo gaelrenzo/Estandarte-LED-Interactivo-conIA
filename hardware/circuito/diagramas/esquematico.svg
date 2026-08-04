@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#222"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="820" fill="#fafbfd"/>
+
+  <!-- Título -->
+  <text x="600" y="34" text-anchor="middle" font-size="22" font-weight="bold" fill="#111">Estandarte LED Interactivo con IA — Diagrama de conexión</text>
+  <text x="600" y="56" text-anchor="middle" font-size="12" fill="#666">WS2812 · ESP32 · MAX4466 · Fuente 5 V</text>
+
+  <!-- Leyenda de colores -->
+  <g font-size="11">
+    <line x1="40" y1="78" x2="70" y2="78" stroke="#d32f2f" stroke-width="3"/>
+    <text x="76" y="82" fill="#333">5 V (rojo)</text>
+    <line x1="150" y1="78" x2="180" y2="78" stroke="#222" stroke-width="3"/>
+    <text x="186" y="82" fill="#333">GND (negro)</text>
+    <line x1="250" y1="78" x2="280" y2="78" stroke="#2e7d32" stroke-width="3"/>
+    <text x="286" y="82" fill="#333">Datos WS2812 (verde)</text>
+    <line x1="420" y1="78" x2="450" y2="78" stroke="#1565c0" stroke-width="3"/>
+    <text x="456" y="82" fill="#333">Audio analógico (azul)</text>
+  </g>
+
+  <!-- ==================== FUENTE 5V ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="60" y="120" width="220" height="130" rx="8" fill="#fff" stroke="#37474f" stroke-width="2"/>
+    <text x="170" y="150" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">Fuente 5 V</text>
+    <text x="170" y="170" text-anchor="middle" font-size="11" fill="#555">5 A recomendada</text>
+    <circle cx="110" cy="215" r="8" fill="#d32f2f"/>
+    <text x="130" y="219" font-size="12" font-weight="bold" fill="#d32f2f">+5V</text>
+    <circle cx="230" cy="215" r="8" fill="#222"/>
+    <text x="250" y="219" font-size="12" font-weight="bold" fill="#111">GND</text>
+  </g>
+
+  <!-- ==================== ESP32 ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="60" y="380" width="240" height="240" rx="8" fill="#fff" stroke="#1565c0" stroke-width="2"/>
+    <text x="180" y="410" text-anchor="middle" font-size="14" font-weight="bold" fill="#1565c0">ESP32 DevKit</text>
+    <text x="180" y="430" text-anchor="middle" font-size="11" fill="#555">3.3 V lógico · ADC 12 bits</text>
+
+    <!-- Pines -->
+    <g font-size="12">
+      <circle cx="105" cy="480" r="8" fill="#2e7d32"/>
+      <text x="120" y="484" fill="#111">GPIO5 → DIN (datos)</text>
+      <circle cx="105" cy="530" r="8" fill="#1565c0"/>
+      <text x="120" y="534" fill="#111">GPIO34 ← OUT mic (ADC)</text>
+      <circle cx="105" cy="580" r="8" fill="#d32f2f"/>
+      <text x="120" y="584" fill="#111">3V3 → VCC mic</text>
+      <circle cx="240" cy="580" r="8" fill="#222"/>
+      <text x="255" y="584" fill="#111">GND</text>
+    </g>
+  </g>
+
+  <!-- ==================== MAX4466 ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="470" y="520" width="200" height="170" rx="8" fill="#fff" stroke="#6a1b9a" stroke-width="2"/>
+    <text x="570" y="550" text-anchor="middle" font-size="14" font-weight="bold" fill="#6a1b9a">Mic MAX4466</text>
+    <text x="570" y="570" text-anchor="middle" font-size="11" fill="#555">Electret preamp</text>
+    <g font-size="12">
+      <circle cx="505" cy="615" r="8" fill="#d32f2f"/>
+      <text x="520" y="619" fill="#111">VCC</text>
+      <circle cx="505" cy="655" r="8" fill="#1565c0"/>
+      <text x="520" y="659" fill="#111">OUT (analog)</text>
+      <circle cx="640" cy="655" r="8" fill="#222"/>
+      <text x="655" y="659" fill="#111">GND</text>
+    </g>
+  </g>
+
+  <!-- ==================== TIRA WS2812 ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="810" y="120" width="330" height="230" rx="8" fill="#fff" stroke="#e65100" stroke-width="2"/>
+    <text x="975" y="150" text-anchor="middle" font-size="14" font-weight="bold" fill="#e65100">Tira LED WS2812</text>
+    <text x="975" y="170" text-anchor="middle" font-size="11" fill="#555">Direccionable · 60 LED/m · 5 V</text>
+    <g font-size="12">
+      <circle cx="845" cy="215" r="8" fill="#d32f2f"/>
+      <text x="862" y="219" fill="#111">VCC (+5V)</text>
+      <circle cx="845" cy="260" r="8" fill="#2e7d32"/>
+      <text x="862" y="264" fill="#111">DIN (datos)</text>
+      <circle cx="1105" cy="215" r="8" fill="#222"/>
+      <text x="1050" y="219" fill="#111">GND</text>
+    </g>
+    <!-- Condensador -->
+    <rect x="860" y="290" width="90" height="34" rx="4" fill="#fdeaea" stroke="#b71c1c"/>
+    <text x="905" y="311" text-anchor="middle" font-size="11" fill="#b71c1c" font-weight="bold">1000µF</text>
+  </g>
+
+  <!-- ==================== RESISTENCIA ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="390" y="292" width="120" height="52" rx="6" fill="#fff" stroke="#37474f" stroke-width="2"/>
+    <text x="450" y="323" text-anchor="middle" font-size="13" font-weight="bold" fill="#111">330 Ω</text>
+    <text x="450" y="338" text-anchor="middle" font-size="10" fill="#555">en línea de datos</text>
+  </g>
+
+  <!-- ==================== CABLEADO ==================== -->
+
+  <!-- 5V: Fuente -> Tira -->
+  <path d="M 280 195 H 770 V 215 H 845" fill="none" stroke="#d32f2f" stroke-width="3"/>
+  <circle cx="845" cy="215" r="3" fill="#d32f2f"/>
+
+  <!-- GND común: Fuente -> Tira (y punto común) -->
+  <path d="M 230 235 V 300 H 770 V 215 H 1105" fill="none" stroke="#222" stroke-width="3"/>
+  <circle cx="1105" cy="215" r="3" fill="#222"/>
+
+  <!-- Condensador entre VCC y GND de la tira -->
+  <path d="M 905 290 V 260" fill="none" stroke="#d32f2f" stroke-width="2"/>
+  <path d="M 905 324 V 340 H 770 V 300 H 230" fill="none" stroke="#222" stroke-width="2" stroke-dasharray="6,4"/>
+
+  <!-- ESP32 GND -> común -->
+  <path d="M 300 580 H 400 V 300 H 770" fill="none" stroke="#222" stroke-width="3"/>
+
+  <!-- Datos: GPIO5 -> 330ohm -> DIN -->
+  <path d="M 300 480 H 360 V 318 H 390" fill="none" stroke="#2e7d32" stroke-width="3" marker-end="url(#arr)"/>
+  <path d="M 510 318 H 770 V 260 H 845" fill="none" stroke="#2e7d32" stroke-width="3"/>
+  <circle cx="845" cy="260" r="3" fill="#2e7d32"/>
+
+  <!-- Mic OUT -> GPIO34 -->
+  <path d="M 470 655 H 380 V 530 H 113" fill="none" stroke="#1565c0" stroke-width="3"/>
+
+  <!-- 3V3 -> VCC mic -->
+  <path d="M 240 580 H 350 V 615 H 505" fill="none" stroke="#d32f2f" stroke-width="3" stroke-dasharray="6,4"/>
+
+  <!-- GND mic -> común -->
+  <path d="M 640 655 H 400 V 300 H 770" fill="none" stroke="#222" stroke-width="3" stroke-dasharray="6,4"/>
+
+  <!-- Notas -->
+  <text x="470" y="712" font-size="11" fill="#555">● GND común entre fuente, ESP32, mic y tira (evita flotación de señal)</text>
+  <text x="470" y="730" font-size="11" fill="#555">● El condensador 1000 µF va lo más cerca posible de la tira</text>
+  <text x="470" y="748" font-size="11" fill="#555">● Ajusta la ganancia del MAX4466 para no saturar el ADC (0-4095)</text>
+  <text x="470" y="766" font-size="11" fill="#555">● Tiras largas (>1 A): inyecta 5 V también al final de la tira</text>
+</svg>

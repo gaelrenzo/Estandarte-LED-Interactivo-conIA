@@ -8,10 +8,15 @@ Explicación detallada del circuito del estandarte, incluyendo esquema, montaje 
 circuito/
 ├── README.md          # Este archivo
 ├── diagramas/         # Esquemáticos y diagramas de conexión
-│   └── (pendiente)    # Fritzing / KiCad / capturas
+│   └── esquematico.svg    # Diagrama de conexión principal (vista en GitHub)
 └── imagenes/          # Fotos del montaje real y pruebas
     └── (pendiente)    # Fotos de protoboard y soporte
 ```
+
+## Esquemático
+
+Ver el diagrama de conexión completo en
+[`diagramas/esquematico.svg`](diagramas/esquematico.svg).
 
 ## Partes del circuito
 
