@@ -1,23 +1,19 @@
-<p align="center">
-  <img src="recursos/captura_simulador.png" alt="Estandarte IME" width="420">
-</p>
+<div align="center">
 
-<h1 align="center">Estandarte LED IME — Gran Plan y Simulación</h1>
+# Estandarte LED IME
 
-<p align="center">
-  <b>Estandarte luminoso interactivo de Ingeniería Mecánica Eléctrica</b><br>
-  Coordinación inalámbrica de ESP32 · Tiras WS2812 · Control por IA
-</p>
+**Estandarte luminoso interactivo de Ingeniería Mecánica Eléctrica**  
+Coordinación inalámbrica de ESP32 · Tiras WS2812 · Control por IA
 
-<p align="center">
-  <a href="https://github.com/gaelrenzo/Estandarte-LED-Interactivo-conIA"><img alt="GitHub" src="https://img.shields.io/github/stars/gaelrenzo/Estandarte-LED-Interactivo-conIA?style=flat&label=Stars"></a>
-  <a href="#"><img alt="Placa" src="https://img.shields.io/badge/Placa-ESP32-15a0d8"></a>
-  <a href="#"><img alt="LED" src="https://img.shields.io/badge/LED-WS2812-orange"></a>
-  <a href="#"><img alt="Red" src="https://img.shields.io/badge/Red-ESP--NOW-00aeef"></a>
-  <a href="#"><img alt="Simulación" src="https://img.shields.io/badge/Simulaci%C3%B3n-Wokwi%20%7C%20PlatformIO-2b7f3b"></a>
-  <a href="https://github.com/gaelrenzo/Estandarte-LED-Interactivo-conIA/deployments"><img alt="Web" src="https://img.shields.io/badge/Web-Control-verde"></a>
-  <a href="#"><img alt="Estado" src="https://img.shields.io/badge/Estado-En%20desarrollo-ffb300"></a>
-</p>
+**Autor:** *Steven Alex Mayta Lampa* · Parada Universitaria 2026
+
+![Placa](https://img.shields.io/badge/Placa-ESP32-15a0d8)
+![LED](https://img.shields.io/badge/LED-WS2812-orange)
+![Red](https://img.shields.io/badge/Red-ESP--NOW-00aeef)
+![Simulación](https://img.shields.io/badge/Simulaci%C3%B3n-Wokwi%20%7C%20PlatformIO-2b7f3b)
+![Estado](https://img.shields.io/badge/Estado-En%20desarrollo-ffb300)
+
+</div>
 
 ---
 
